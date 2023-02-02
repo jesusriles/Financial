@@ -2,18 +2,18 @@
 
 int Menu::printMenu()
 {
-	cout << "--- General activities ---\n";
-	cout << "(1) Accounts" << endl;
-	cout << "(2) Income" << endl;
-	cout << "(3) Expense" << endl;
+	cout << "--- Actividades generales ---\n";
+	cout << "(1) Cuentas" << endl;
+	cout << "(2) Ingresos" << endl;
+	cout << "(3) Gastos" << endl;
 
-	cout << "\n--- Reports ---\n";
-	cout << "(10) Expense report" << endl;
-	cout << "(11) Income report" << endl;
+	cout << "\n--- Reportes ---\n";
+	cout << "(10) Reporte de gastos" << endl;
+	cout << "(11) Reporte de ingresos" << endl;
 	
-	cout << "\n--- Quick activities ---\n";
-	cout << "(98) Register an income" << endl;
-	cout << "(99) Register an expense" << endl;
+	cout << "\n--- Actividades rapidas ---\n";
+	cout << "(98) Registrar ingresos" << endl;
+	cout << "(99) Registrar gastos" << endl;
 
 	cout << "Option> ";
 

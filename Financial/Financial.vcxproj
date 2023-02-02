@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Cuentas.cpp" />
+    <ClCompile Include="FileMgmt.cpp" />
     <ClCompile Include="Gastos.cpp" />
     <ClCompile Include="Ingresos.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -135,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cuentas.h" />
+    <ClInclude Include="FileMgmt.h" />
     <ClInclude Include="Gastos.h" />
     <ClInclude Include="Ingresos.h" />
     <ClInclude Include="Menu.h" />

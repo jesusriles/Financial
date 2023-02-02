@@ -2,6 +2,7 @@
 #include "Cuentas.h"
 #include "Ingresos.h"
 #include "Menu.h"
+#include "FileMgmt.h"
 
 int main()
 {
@@ -25,7 +26,11 @@ int main()
 	ingresoUno.imprimirIngresos();
 	ingresoDos.imprimirIngresos();
 	ingresoTres.imprimirIngresos();
-	
+
+	FileMgmt file;
+	file.guardarCuenta(cuentaUno);
+	file.guardarCuenta(cuentaDos);
+
 	return 0;
 }
 
