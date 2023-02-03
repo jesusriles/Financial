@@ -23,4 +23,20 @@ bool FileMgmt::guardarCuenta(Cuentas &c) {
 
 bool FileMgmt::leerCuenta(int id) {
 
+	return true;
+}
+
+
+vector<string> FileMgmt::leerTodasLasCuentas() {
+
+	vector<string> vLine;
+	string lineTmp{};
+	ifstream file(ARCHIVO_CUENTAS, std::ifstream::in);
+
+	while (getline(file, lineTmp)) {
+		vLine.push_back(lineTmp);
+	}
+	
+	file.close();
+	return vLine;
 }

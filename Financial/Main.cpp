@@ -20,7 +20,7 @@ int main()
 	// Crear ingresos
 	Ingresos ingresoUno{ 1, 1, 50 };
 	Ingresos ingresoDos{ 2, 1, 450 };
-	Ingresos ingresoTres{ 3, 2, 32956.86 };
+	Ingresos ingresoTres{ 3, 2, 32956.86f };
 
 	
 	ingresoUno.imprimirIngresos();
@@ -31,26 +31,10 @@ int main()
 	file.guardarCuenta(cuentaUno);
 	file.guardarCuenta(cuentaDos);
 
+	vector<string> v = file.leerTodasLasCuentas();
+	for (string line : v) {
+		cout << line << endl;
+	}
+
 	return 0;
 }
-
-/*
-Version 1:
-	*[] Creando toda la logica de las cuentas
-		*19 Ene -> [x] Poder crear una cuenta
-			*19 Ene -> [x] Agregar el constructor
-			*19 Ene -> [x] Agregar las reglas de lo que se puede y no se puede hacer en las cuentas (e.g. nombre maximo x caracteres, etc.)
-		
-		[] Al crear una cuenta, si se registra un monto inicial debe crear un ingreso/gasto inicial con el comentario "Inicial"
-			
-		[] Poder imprimir la informacion de la cuenta
-		[] Poder eliminar una cuenta
-		[] Poder modificar una cuenta
-
-	[] Poder guardar la informacion en un archivo de forma organizada
-		[] Pensar en la mejor forma de guardar informacion
-			1- Puede ser en archivos mensuales (IngresosEnero2023.txt, GastosFebrero2023.txt)
-			2- Todo los ingresos/gastos/movimientos por mes (Movimientos2023.txt)
-
-	[] Tener un menu y la estructura de como va a ser el menu (con la parte de las cuentas)
- */

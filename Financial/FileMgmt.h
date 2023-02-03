@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <fstream> 
+#include <vector>
 
 #include "Cuentas.h"
 
@@ -15,11 +16,9 @@ private:
 public:
 	// Cuentas
 	bool guardarCuenta(Cuentas& c);
+	vector<string> leerTodasLasCuentas();
+
+
+
 	bool leerCuenta(int id);
-
-
-
-
-
-	bool imprimirTodasLasCuentas();
 };
