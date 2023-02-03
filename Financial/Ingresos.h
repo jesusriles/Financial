@@ -3,13 +3,14 @@
 #include <iomanip>
 #include <string>
 #include <locale>
+#include <vector>
 
 using namespace std;
 
 class Ingresos
 {
 private:
-	int mId;
+	int mId{ 0 };
 	int mIdCuentaAsociada;
 	float mCantidad;
 
@@ -19,8 +20,10 @@ public:
 	int getIdCuentaAsociada() { return mIdCuentaAsociada; };
 	float getCantidad() { return mCantidad; };
 
-
 	// funciones
 	Ingresos(int id, int idCuentaAsociada, float cantidad);
 	void imprimirIngresos();
+
+	// static methods
+	static double obtenerIngresosDeCuenta(vector<Ingresos>& i, int cuentaId);
 };

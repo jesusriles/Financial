@@ -6,11 +6,12 @@
 
 using namespace std;
 
-int main()
-{
+int main() {
+
 	// Leer todas las cuentas
 	FileMgmt fileMgmt;
 	vector<Cuentas> cuentas = fileMgmt.leerCuentas();
+	vector<Ingresos> ingresos = fileMgmt.leerIngresos();
 
 	// Agregar 5 ingresos
 	//Ingresos uno(1, 1, 26000.30f);
@@ -25,10 +26,8 @@ int main()
 	//fileMgmt.guardarIngreso(uno);
 	//fileMgmt.guardarIngreso(dos);
 
-	vector<Ingresos> ingresos = fileMgmt.leerIngresos();
-	for (Ingresos ingreso : ingresos) {
-		ingreso.imprimirIngresos();
-	}
+	float cantidad = Ingresos::obtenerIngresosDeCuenta(ingresos, 2);
+	cout << cantidad << endl;
 	
 	return 0;
 }
