@@ -25,5 +25,5 @@ public:
 	void imprimirIngresos();
 
 	// static methods
-	static double obtenerIngresosDeCuenta(vector<Ingresos>& i, int cuentaId);
+	static double obtenerIngresoTotalDeCuenta(vector<Ingresos>& i, int cuentaId);
 };

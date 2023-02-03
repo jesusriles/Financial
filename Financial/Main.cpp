@@ -13,6 +13,13 @@ int main() {
 	vector<Cuentas> cuentas = fileMgmt.leerCuentas();
 	vector<Ingresos> ingresos = fileMgmt.leerIngresos();
 
+	// Imprimir la informacion de las cuentas
+	cout << "Cuenta" << setw(26) << "Cantidad" << endl;
+	cout << "-----------------------------------------" << endl;
+	for (Cuentas cuenta : cuentas) {
+		cuenta.imprimirCuentaRelevante();
+	}
+
 	// Agregar 5 ingresos
 	//Ingresos uno(1, 1, 26000.30f);
 	//Ingresos dos(2, 1, 64000.00f);
@@ -26,8 +33,5 @@ int main() {
 	//fileMgmt.guardarIngreso(uno);
 	//fileMgmt.guardarIngreso(dos);
 
-	float cantidad = Ingresos::obtenerIngresosDeCuenta(ingresos, 2);
-	cout << cantidad << endl;
-	
 	return 0;
 }

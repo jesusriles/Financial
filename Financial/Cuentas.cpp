@@ -22,31 +22,13 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 	{
 		throw("El comentario debe tener maximo 200 caracteres");
 	}
-
-	cout << "[+] Cuenta \"" << mNombre << "\" creada correctamente." << endl;
 ;}
 
-void Cuentas::imprimirCuenta()
-{
-	cout << "Id: " << setw(13) << " " << mId << endl;
-	cout << "Nombre: " << setw(9) << " " << mNombre << endl;
-	cout << "Valor: " << setw(11) << "$" << mValorInicial << endl;
-	cout << "Tipo de cuenta: " << setw(1) << " " << mTipoDeCuenta << endl;
-	cout << "Tipo de moneda: " << setw(1) << " " << mTipoDeMoneda << endl;
-	cout << "Escondido: " << setw(6) << " " << mTipoDeMoneda << endl;
-	cout << "Archivado: " << setw(6) << " " << mArchivado << endl;
-	cout << "Comentarios: " << setw(4) << " " << mComentarios << endl;
-
-	cout << endl;
-}
-
 void Cuentas::imprimirCuentaRelevante()
-{
-	cout << "Nombre: " << setw(9) << " " << mNombre << endl;
-	cout << "Valor: " << setw(11) << "$" << mValorInicial << endl;
-	if (mEscondido != 0) cout << "Escondido: " << setw(6) << " " << mTipoDeMoneda << endl;
-	if (mArchivado != 0) cout << "Archivado: " << setw(6) << " " << mArchivado << endl;
-	if (mComentarios != "null") cout << "Comentarios: " << setw(4) << " " << mComentarios << endl;
+{ 
+	int tabSize = 25 - mNombre.size() ;
 
-	cout << endl;
+	std::cout.imbue(std::locale(""));
+	std::cout << std::fixed << std::showpoint << std::setprecision(3);
+	cout << mNombre << setw(tabSize) << "$" << mValorInicial << endl;
 }

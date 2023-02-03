@@ -14,7 +14,7 @@ void Ingresos::imprimirIngresos() {
 		" Id cuenta: " << mIdCuentaAsociada << " Cantidad: $" << mCantidad << endl;
 }
 
-double Ingresos::obtenerIngresosDeCuenta(vector<Ingresos> &i, int cuentaId) {
+double Ingresos::obtenerIngresoTotalDeCuenta(vector<Ingresos> &i, int cuentaId) {
 
 	float total{ 0 };
 

@@ -46,7 +46,6 @@ public:
 	void setArchivado(bool tmpArchivado) { mArchivado = tmpArchivado; };
 
 	// Funciones
-	void imprimirCuenta(); // imprimir toda la informacion de una cuenta
 	void imprimirCuentaRelevante(); // imprimir informacion relevante de una cuenta
 };
 
