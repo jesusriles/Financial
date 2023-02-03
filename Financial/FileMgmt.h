@@ -12,13 +12,10 @@ class FileMgmt
 {
 private:
 	const string ARCHIVO_CUENTAS{ "Cuentas.txt" };
+	vector<Cuentas> cuentas;
 
 public:
 	// Cuentas
 	bool guardarCuenta(Cuentas& c);
-	vector<string> leerTodasLasCuentas();
-
-
-
-	bool leerCuenta(int id);
+	vector<Cuentas> leerCuentas();
 };
