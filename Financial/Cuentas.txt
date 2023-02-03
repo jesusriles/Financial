@@ -1,5 +1,2 @@
 1,Cartera,null,null,200.5,0,0,0,0;
-1,Cartera,null,null,200.5,0,0,0,0;
-2,HSBC Nomina,Tarjeta donde me depositan de Deloitte,null,0,0,0,0,0;
-1,Cartera,null,null,200.5,0,0,0,0;
 2,HSBC Nomina,Tarjeta donde me depositan de Deloitte,null,0,0,0,0,0;

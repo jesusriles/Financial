@@ -9,7 +9,7 @@ class Cuentas
 {
 private:
 	int mId;
-	string mNombre;
+	string mNombre{};
 	string mComentarios{ "null" };
 	string mFechaCreacion{ "null" };
 	float mValorInicial{ 0.0f};
@@ -34,6 +34,18 @@ public:
 	bool obtenerEscondido() { return mEscondido; };
 	bool obtenerArchivado() { return mArchivado; };
 
+	// Setters
+	void setId(int tmpId) { mId = tmpId; }
+	void setNombre(string tmpNombre) { mNombre = tmpNombre; };
+	void setComentario(string tmpComentario) { mComentarios = tmpComentario; };
+	void setFechaCreacion(string tmpFechaCreacion) { mFechaCreacion = tmpFechaCreacion; };
+	void setValorInicial(float tmpValorInicial) { mValorInicial = tmpValorInicial; };
+	void setTipoDeCuenta(int tmpTipoDeCuenta) { mTipoDeCuenta = tmpTipoDeCuenta; };
+	void setTipoDeMoneda(int tmpTipoDeMoneda) { mTipoDeMoneda = tmpTipoDeMoneda; };
+	void setEscondido(bool tmpEscondido) { mEscondido = tmpEscondido; };
+	void setArchivado(bool tmpArchivado) { mArchivado = tmpArchivado; };
+
+	// Funciones
 	void imprimirCuenta(); // imprimir toda la informacion de una cuenta
 	void imprimirCuentaRelevante(); // imprimir informacion relevante de una cuenta
 };
