@@ -9,18 +9,20 @@
 
 using std::string;
 
+// global variables
+const string ARCHIVO_CUENTAS{ "Cuentas.txt" };
+const string ARCHIVO_INGRESOS{ "Ingresos.txt" };
+const string ARCHIVO_GASTOS{ "Gastos.txt" };
+
 class FileMgmt
 {
 private:
-	const string ARCHIVO_CUENTAS{ "Cuentas.txt" };
-	const string ARCHIVO_INGRESOS{ "Ingresos.txt" };
-	const string ARCHIVO_GASTOS{ "Gastos.txt" };
-
+	
 	vector<Cuentas> cuentas;
 
 public:
 	// Cuentas
-	bool guardarCuenta(Cuentas& c);
+	static bool guardarCuenta(Cuentas& c);
 	vector<Cuentas> leerCuentas();
 
 	// Ingresos

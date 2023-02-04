@@ -23,6 +23,7 @@ public:
 	// constructor
 	Cuentas(int id, string nombre, float valorInicial,
 		int tipoDeCuenta, int tipoDeMoneda, string comentarios);
+	Cuentas(int id, string nombre, float valorInicial);
 
 	// Getters
 	int obtenerId() { return mId; };

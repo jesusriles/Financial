@@ -8,7 +8,7 @@ bool FileMgmt::guardarCuenta(Cuentas &c) {
 	ofstream file;
 	file.open(ARCHIVO_CUENTAS, fstream::app);
 	
-	file << 
+	file <<
 		c.obtenerId() << "," <<
 		c.obtenerNombre() << "," <<
 		c.obtenerComentario() << "," <<

@@ -22,6 +22,24 @@ int main() {
 		if (optionCuenta == 1) { // visualizar cuenta
 			Cuentas::imprimirCuentas(cuentas);
 		}
+		else if (optionCuenta == 2) { // agregar cuenta
+			// pedir la informacion de la cuenta nueva que se va a crear
+			int id{ 0 };
+			string nombre{ "null" };
+			float valor{ 0.0f };
+
+			cout << "Id de cuenta> ";
+			cin >> id;
+
+			cout << "Nombre de cuenta> ";
+			cin >> nombre;
+
+			cout << "Valor inicial de cuenta> ";
+			cin >> valor;
+
+			Cuentas cuenta = Cuentas(id, nombre, valor);
+			FileMgmt::guardarCuenta(cuenta);
+		}
 	}
 
 

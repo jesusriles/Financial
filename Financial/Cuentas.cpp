@@ -1,5 +1,6 @@
 #include "Cuentas.h"
 
+// Constructors
 Cuentas::Cuentas(int id, string nombre, float valorInicial,
 	int tipoDeCuenta, int tipoDeMoneda, string comentarios) :
 	mId {id}, mNombre {nombre}, mValorInicial {valorInicial},
@@ -23,6 +24,18 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 		throw("El comentario debe tener maximo 200 caracteres");
 	}
 ;}
+
+Cuentas::Cuentas(int id, string nombre, float valorInicial) :
+	mId{ id }, mNombre{ nombre }, mValorInicial{ valorInicial }
+{
+	Cuentas::Cuentas(
+		id,
+		nombre,
+		valorInicial,
+		1, // tipo de cuenta
+		1, // tipo de moneda
+		"null"); // comentarios
+}
 
 void Cuentas::imprimirCuentas(vector<Cuentas> &c)
 { 
