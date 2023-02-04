@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <vector>
 
 using namespace std;
 
@@ -22,6 +23,7 @@ public:
 	// constructor
 	Cuentas(int id, string nombre, float valorInicial,
 		int tipoDeCuenta, int tipoDeMoneda, string comentarios);
+	Cuentas(int id, string nombre, float valorInicial);
 
 	// Getters
 	int obtenerId() { return mId; };
@@ -46,7 +48,6 @@ public:
 	void setArchivado(bool tmpArchivado) { mArchivado = tmpArchivado; };
 
 	// Funciones
-	void imprimirCuenta(); // imprimir toda la informacion de una cuenta
-	void imprimirCuentaRelevante(); // imprimir informacion relevante de una cuenta
+	static void imprimirCuentas(vector<Cuentas> &c); // imprimir informacion relevante de una cuenta
 };
 
