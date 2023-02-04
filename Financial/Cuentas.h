@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <vector>
 
 using namespace std;
 
@@ -46,6 +47,6 @@ public:
 	void setArchivado(bool tmpArchivado) { mArchivado = tmpArchivado; };
 
 	// Funciones
-	void imprimirCuentaRelevante(); // imprimir informacion relevante de una cuenta
+	static void imprimirCuentas(vector<Cuentas> &c); // imprimir informacion relevante de una cuenta
 };
 

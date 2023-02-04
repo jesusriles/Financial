@@ -8,17 +8,30 @@ using namespace std;
 
 int main() {
 
-	// Leer todas las cuentas
+	// Obtener la informacion guardada en los archivos (Cuentas, Ingresos y Gastos)
 	FileMgmt fileMgmt;
 	vector<Cuentas> cuentas = fileMgmt.leerCuentas();
 	vector<Ingresos> ingresos = fileMgmt.leerIngresos();
 
-	// Imprimir la informacion de las cuentas
+	// Menu options
+	int option{ Menu::printMenu() };
+
+	if (option == 1) { // Cuentas
+		int optionCuenta{ Menu::printMenuAccounts() };
+
+		if (optionCuenta == 1) { // visualizar cuenta
+			Cuentas::imprimirCuentas(cuentas);
+		}
+	}
+
+
+	/* Imprimir la informacion de las cuentas
 	cout << "Cuenta" << setw(26) << "Cantidad" << endl;
 	cout << "-----------------------------------------" << endl;
 	for (Cuentas cuenta : cuentas) {
 		cuenta.imprimirCuentaRelevante();
 	}
+	*/
 
 	// Agregar 5 ingresos
 	//Ingresos uno(1, 1, 26000.30f);

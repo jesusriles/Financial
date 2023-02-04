@@ -24,11 +24,14 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 	}
 ;}
 
-void Cuentas::imprimirCuentaRelevante()
+void Cuentas::imprimirCuentas(vector<Cuentas> &c)
 { 
-	int tabSize = 25 - mNombre.size() ;
+	system("CLS");
+	for (Cuentas cuenta : c) {
+		int tabSize = 25 - cuenta.mNombre.size();
 
-	std::cout.imbue(std::locale(""));
-	std::cout << std::fixed << std::showpoint << std::setprecision(3);
-	cout << mNombre << setw(tabSize) << "$" << mValorInicial << endl;
+		std::cout.imbue(std::locale(""));
+		std::cout << std::fixed << std::showpoint << std::setprecision(3);
+		cout << cuenta.mNombre << setw(tabSize) << "$" << cuenta.mValorInicial << endl;
+	}
 }
