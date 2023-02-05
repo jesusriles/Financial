@@ -6,3 +6,4 @@
 77,hola,null,null,2,1,1,0,0;
 99,Aranza,null,null,0,1,1,0,0;
 67,CuentadePrueba,null,null,700000,1,1,0,0;
+88,AnitaLavaLaTina,null,null,69,1,1,0,0;

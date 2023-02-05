@@ -3,6 +3,14 @@
 #include <string>
 #include <iomanip>
 #include <vector>
+#include <fstream> 
+
+using std::string;
+
+// global variables
+const string ARCHIVO_CUENTAS{ "Cuentas.txt" };
+const string ARCHIVO_INGRESOS{ "Ingresos.txt" };
+const string ARCHIVO_GASTOS{ "Gastos.txt" };
 
 using namespace std;
 
@@ -51,7 +59,7 @@ public:
 
 	// Funciones
 	static void imprimirCuentas(vector<Cuentas> &c); // imprimir informacion relevante de una cuenta
-
-	
+	static bool guardarCuenta(Cuentas& c);
+	static vector<Cuentas> leerCuentas();
 };
 

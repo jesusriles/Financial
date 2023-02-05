@@ -2,16 +2,14 @@
 #include "Cuentas.h"
 #include "Ingresos.h"
 #include "Menu.h"
-#include "FileMgmt.h"
 
 using namespace std;
 
 int main() {
 
 	// Obtener la informacion guardada en los archivos (Cuentas, Ingresos y Gastos)
-	FileMgmt fileMgmt;
-	vector<Cuentas> cuentas = fileMgmt.leerCuentas();
-	vector<Ingresos> ingresos = fileMgmt.leerIngresos();
+	vector<Cuentas> cuentas = Cuentas::leerCuentas();
+	vector<Ingresos> ingresos = Ingresos::leerIngresos();
 
 	// Menu options
 	int option{ Menu::printMenu() };
@@ -38,7 +36,7 @@ int main() {
 			cin >> valor;
 
 			Cuentas cuenta = Cuentas(id, nombre, valor);
-			FileMgmt::guardarCuenta(cuenta);
+			Cuentas::guardarCuenta(cuenta);
 		}
 	}
 
