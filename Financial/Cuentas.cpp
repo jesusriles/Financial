@@ -48,3 +48,10 @@ void Cuentas::imprimirCuentas(vector<Cuentas> &c)
 		cout << cuenta.mNombre << setw(tabSize) << "$" << cuenta.mValorInicial << endl;
 	}
 }
+
+int Cuentas::getNextFreeId(vector<Cuentas>& c) {
+
+	if (c.empty())
+		return 1;
+	return (c[ c.size() - 1 ].obtenerId()) + 1;
+}

@@ -9,7 +9,7 @@ using namespace std;
 class Cuentas
 {
 private:
-	int mId;
+	int mId{ 0 };
 	string mNombre{};
 	string mComentarios{ "null" };
 	string mFechaCreacion{ "null" };
@@ -18,6 +18,8 @@ private:
 	int mTipoDeMoneda{ 1 };
 	bool mEscondido{ false };
 	bool mArchivado{ false };
+
+	static int getNextFreeId(vector<Cuentas>& c); // get the next free Id to be assigned
 	
 public:
 	// constructor
@@ -49,5 +51,7 @@ public:
 
 	// Funciones
 	static void imprimirCuentas(vector<Cuentas> &c); // imprimir informacion relevante de una cuenta
+
+	
 };
 

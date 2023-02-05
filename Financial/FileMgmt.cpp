@@ -141,6 +141,5 @@ vector<Ingresos> FileMgmt::leerIngresos() {
 			}
 		}
 	}
-
 	return ingresos;
 }
