@@ -18,25 +18,22 @@ class Cuentas
 {
 private:
 	int mId{ 0 };
-	string mNombre{};
+	string mNombre{ "null" };
 	string mComentarios{ "null" };
 	string mFechaCreacion{ "null" };
 	float mValorInicial{ 0.0f};
-	int mTipoDeCuenta{ 1 };
-	int mTipoDeMoneda{ 1 };
+	int mTipoDeCuenta{ 0 };
+	int mTipoDeMoneda{ 0 };
 	bool mEscondido{ false };
 	bool mArchivado{ false };
 
-	static int getNextFreeId(vector<Cuentas>& c); // get the next free Id to be assigned
-	
 public:
 	// constructor
-	Cuentas(int id, string nombre, float valorInicial,
-		int tipoDeCuenta, int tipoDeMoneda, string comentarios);
+	Cuentas(int id, string nombre, float valorInicial, int tipoDeCuenta, int tipoDeMoneda, string comentarios);
 	Cuentas(int id, string nombre, float valorInicial);
 
 	// Getters
-	int obtenerId() { return mId; };
+	int obtenerId() const { return mId; };
 	string obtenerNombre() { return mNombre; };
 	string obtenerComentario() { return mComentarios; };
 	string obtenerFechaCreacion() { return mFechaCreacion; };
@@ -57,9 +54,11 @@ public:
 	void setEscondido(bool tmpEscondido) { mEscondido = tmpEscondido; };
 	void setArchivado(bool tmpArchivado) { mArchivado = tmpArchivado; };
 
-	// Funciones
-	static void imprimirCuentas(vector<Cuentas> &c); // imprimir informacion relevante de una cuenta
+	// Functions
+	static void imprimirCuentas(vector<Cuentas>& c);
 	static bool guardarCuenta(Cuentas& c);
 	static vector<Cuentas> leerCuentas();
+	static int getNextFreeId(const vector<Cuentas> &c); // get the next free Id to be assigned
+
 };
 

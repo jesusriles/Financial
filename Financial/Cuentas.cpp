@@ -3,13 +3,15 @@
 // Constructors
 Cuentas::Cuentas(int id, string nombre, float valorInicial,
 	int tipoDeCuenta, int tipoDeMoneda, string comentarios) :
-	mId {id}, mNombre {nombre}, mValorInicial {valorInicial},
+	mId{ id }, mNombre {nombre}, mValorInicial{ valorInicial },
 	mTipoDeCuenta {tipoDeCuenta}, mTipoDeMoneda {tipoDeMoneda}, mComentarios {comentarios}
-{
-	// id: no puede ser un numero mayor a 100
+{	
 	if (id < 1 || id > 99)
 	{
-		throw("El id debe ser un numero entre 1 y 99");
+		string error_message{ "Error: El id debe ser un numero entre 1 y 99" };
+
+		cout << error_message << endl;
+		throw(error_message);
 	}
 
 	// nombre: maximo 30 caracteres
@@ -25,8 +27,8 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 	}
 ;}
 
-Cuentas::Cuentas(int id, string nombre, float valorInicial) :
-	mId{ id }, mNombre{ nombre }, mValorInicial{ valorInicial }
+Cuentas::Cuentas(int id, string nombre, float valorInicial) 
+	:mId{ id }, mNombre { nombre }, mValorInicial{ valorInicial }
 {
 	Cuentas::Cuentas(
 		id,
@@ -40,6 +42,11 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial) :
 void Cuentas::imprimirCuentas(vector<Cuentas> &c)
 { 
 	system("CLS");
+	if (c.empty()) {
+		cout << "No accounts created." << endl;
+		return;
+	}
+
 	for (Cuentas cuenta : c) {
 		int tabSize = 25 - cuenta.mNombre.size();
 
@@ -49,11 +56,26 @@ void Cuentas::imprimirCuentas(vector<Cuentas> &c)
 	}
 }
 
-int Cuentas::getNextFreeId(vector<Cuentas>& c) {
+int Cuentas::getNextFreeId(const vector<Cuentas> &c) {
 
 	if (c.empty())
 		return 1;
-	return (c[ c.size() - 1 ].obtenerId()) + 1;
+
+	int nextId = (c[c.size() - 1].obtenerId()) + 1;
+
+	// make sure the id doesn't exist in the already created accounts
+	bool duplicatedId{ true };
+
+	while (duplicatedId) {
+		for (Cuentas cuenta : c) {
+			if (cuenta.obtenerId() == nextId) { // id already exist, assign another
+				++nextId;
+				break;
+			}
+		}
+		duplicatedId = false;
+	}
+	return nextId;
 }
 
 bool Cuentas::guardarCuenta(Cuentas& c) {

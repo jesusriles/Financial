@@ -22,12 +22,8 @@ int main() {
 		}
 		else if (optionCuenta == 2) { // agregar cuenta
 			// pedir la informacion de la cuenta nueva que se va a crear
-			int id{ 0 };
 			string nombre{};
 			float valor{ 0.0f };
-
-			cout << "Id de cuenta> ";
-			cin >> id;
 
 			cout << "Nombre de cuenta> ";
 			cin.ignore();
@@ -35,6 +31,8 @@ int main() {
 
 			cout << "Valor inicial de cuenta> ";
 			cin >> valor;
+
+			int id = Cuentas::getNextFreeId(cuentas);
 
 			Cuentas cuenta = Cuentas(id, nombre, valor);
 			Cuentas::guardarCuenta(cuenta);
