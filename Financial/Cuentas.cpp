@@ -8,8 +8,7 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 {	
 	if (id < 1 || id > 99)
 	{
-		string error_message{ "Error: El id debe ser un numero entre 1 y 99" };
-
+		string error_message{ "[ERROR] Error: El id no debe ser mayor a " + MAX_AVAILABLE_IDS };
 		cout << error_message << endl;
 		throw(error_message);
 	}
@@ -17,13 +16,17 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 	// nombre: maximo 30 caracteres
 	if (nombre.length() > 30)
 	{
-		throw("El nombre debe tener maximo 30 caracteres");
+		string error_message{ "[ERROR] El nombre debe tener maximo 30 caracteres" };
+		cout << error_message << endl;
+		throw(error_message);
 	}
 
 	// nombre: maximo 200 caracteres
 	if (mComentarios.length() > 200)
 	{
-		throw("El comentario debe tener maximo 200 caracteres");
+		string error_message{ "[ERROR] El comentario debe tener maximo 200 caracteres" };
+		cout << error_message << endl;
+		throw(error_message);
 	}
 ;}
 
@@ -152,7 +155,6 @@ vector<Cuentas> Cuentas::leerCuentas() {
 			}
 		}
 	}
-
 	file.close();
 	return cuentas;
 }

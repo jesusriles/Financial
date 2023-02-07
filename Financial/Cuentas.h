@@ -12,6 +12,8 @@ const string ARCHIVO_CUENTAS{ "Cuentas.txt" };
 const string ARCHIVO_INGRESOS{ "Ingresos.txt" };
 const string ARCHIVO_GASTOS{ "Gastos.txt" };
 
+const int MAX_AVAILABLE_IDS{ 99 };
+
 using namespace std;
 
 class Cuentas
@@ -54,7 +56,7 @@ public:
 	void setEscondido(bool tmpEscondido) { mEscondido = tmpEscondido; };
 	void setArchivado(bool tmpArchivado) { mArchivado = tmpArchivado; };
 
-	// functions
+	// static functions
 	static void imprimirCuentas(vector<Cuentas>& c);
 	static bool guardarCuenta(Cuentas& c);
 	static vector<Cuentas> leerCuentas();

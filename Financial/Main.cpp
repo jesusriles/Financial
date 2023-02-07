@@ -32,10 +32,14 @@ int main() {
 			cout << "Valor inicial de cuenta> ";
 			cin >> valor;
 
-			int id = Cuentas::getNextFreeId(cuentas);
-
-			Cuentas cuenta = Cuentas(id, nombre, valor);
-			Cuentas::guardarCuenta(cuenta);
+			try {
+				int id = Cuentas::getNextFreeId(cuentas);
+				Cuentas cuenta = Cuentas(id, nombre, valor);
+				Cuentas::guardarCuenta(cuenta);
+			}
+			catch (...) {
+				cout << "[ERROR] La cuenta no se pudo crear correctamente." << endl;
+			}
 		}
 	}
 
