@@ -32,18 +32,18 @@ public:
 	Cuentas(int id, string nombre, float valorInicial, int tipoDeCuenta, int tipoDeMoneda, string comentarios);
 	Cuentas(int id, string nombre, float valorInicial);
 
-	// Getters
+	// getters
 	int obtenerId() const { return mId; };
-	string obtenerNombre() { return mNombre; };
-	string obtenerComentario() { return mComentarios; };
-	string obtenerFechaCreacion() { return mFechaCreacion; };
-	float obtenerValorInicial() { return mValorInicial; };
-	int obtenerTipoDeCuenta() { return mTipoDeCuenta; };
-	int obtenerTipoDeMoneda() { return mTipoDeMoneda; };
-	bool obtenerEscondido() { return mEscondido; };
-	bool obtenerArchivado() { return mArchivado; };
+	string obtenerNombre() const { return mNombre; };
+	string obtenerComentario() const { return mComentarios; };
+	string obtenerFechaCreacion() const { return mFechaCreacion; };
+	float obtenerValorInicial() const { return mValorInicial; };
+	int obtenerTipoDeCuenta() const { return mTipoDeCuenta; };
+	int obtenerTipoDeMoneda() const { return mTipoDeMoneda; };
+	bool obtenerEscondido() const { return mEscondido; };
+	bool obtenerArchivado() const { return mArchivado; };
 
-	// Setters
+	// setters
 	void setId(int tmpId) { mId = tmpId; }
 	void setNombre(string tmpNombre) { mNombre = tmpNombre; };
 	void setComentario(string tmpComentario) { mComentarios = tmpComentario; };
@@ -54,11 +54,10 @@ public:
 	void setEscondido(bool tmpEscondido) { mEscondido = tmpEscondido; };
 	void setArchivado(bool tmpArchivado) { mArchivado = tmpArchivado; };
 
-	// Functions
+	// functions
 	static void imprimirCuentas(vector<Cuentas>& c);
 	static bool guardarCuenta(Cuentas& c);
 	static vector<Cuentas> leerCuentas();
 	static int getNextFreeId(const vector<Cuentas> &c); // get the next free Id to be assigned
-
 };
 

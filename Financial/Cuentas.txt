@@ -1,3 +1,4 @@
 1,HSBC Nomina,null,null,1e+06,0,0,0,0;
 2,Santander Debito,null,null,200000,0,0,0,0;
 3,Monserrat,null,null,50,0,0,0,0;
+4,Aranzazu Nomina,null,null,75895.5,0,0,0,0;
