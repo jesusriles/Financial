@@ -13,7 +13,6 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 		throw(error_message);
 	}
 
-	// nombre: maximo 30 caracteres
 	if (nombre.length() > 30)
 	{
 		string error_message{ "[ERROR] El nombre debe tener maximo 30 caracteres" };
@@ -21,8 +20,13 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 		throw(error_message);
 	}
 
-	// nombre: maximo 200 caracteres
-	if (mComentarios.length() > 200)
+	if (nombre.find(",") != std::string::npos) {
+		string error_message{ "[ERROR] El nombre no puedo incluir el caracter \",\"" };
+		cout << error_message << endl;
+		throw(error_message);
+	}
+
+	if (mComentarios.length() > 50)
 	{
 		string error_message{ "[ERROR] El comentario debe tener maximo 200 caracteres" };
 		cout << error_message << endl;
