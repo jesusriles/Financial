@@ -6,15 +6,13 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 	mId{ id }, mNombre {nombre}, mValorInicial{ valorInicial },
 	mTipoDeCuenta {tipoDeCuenta}, mTipoDeMoneda {tipoDeMoneda}, mComentarios {comentarios}
 {	
-	if (id < 1 || id > 99)
-	{
+	if (id < 1 || id > 99) {
 		string error_message{ "[ERROR] Error: El id no debe ser mayor a " + MAX_AVAILABLE_IDS };
 		cout << error_message << endl;
 		throw(error_message);
 	}
 
-	if (nombre.length() > 30)
-	{
+	if (nombre.length() > 30) {
 		string error_message{ "[ERROR] El nombre debe tener maximo 30 caracteres" };
 		cout << error_message << endl;
 		throw(error_message);
@@ -26,8 +24,7 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 		throw(error_message);
 	}
 
-	if (mComentarios.length() > 50)
-	{
+	if (mComentarios.length() > 50) {
 		string error_message{ "[ERROR] El comentario debe tener maximo 200 caracteres" };
 		cout << error_message << endl;
 		throw(error_message);

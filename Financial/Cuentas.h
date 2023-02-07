@@ -16,7 +16,7 @@ const int MAX_AVAILABLE_IDS{ 99 };
 
 using namespace std;
 
-class Cuentas
+class Cuentas 
 {
 private:
 	int mId{ 0 };
@@ -62,4 +62,3 @@ public:
 	static vector<Cuentas> leerCuentas();
 	static int getNextFreeId(const vector<Cuentas> &c); // get the next free Id to be assigned
 };
-
