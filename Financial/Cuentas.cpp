@@ -55,7 +55,7 @@ void Cuentas::imprimirCuentas(vector<Cuentas> &c)
 		int tabSize = 25 - cuenta.mNombre.size();
 
 		std::cout.imbue(std::locale(""));
-		std::cout << std::fixed << std::showpoint << std::setprecision(3);
+		std::cout << std::fixed << std::showpoint << std::setprecision(2);
 		cout << cuenta.mNombre << setw(tabSize) << "$" << cuenta.mValorInicial << endl;
 	}
 }
@@ -87,12 +87,14 @@ bool Cuentas::guardarCuenta(Cuentas& c) {
 	ofstream file;
 	file.open(ARCHIVO_CUENTAS, fstream::app);
 
+	
+
 	file <<
 		c.obtenerId() << "," <<
 		c.obtenerNombre() << "," <<
 		c.obtenerComentario() << "," <<
 		c.obtenerFechaCreacion() << "," <<
-		c.obtenerValorInicial() << "," <<
+		c.obtenerValorInicial() << std::showpoint << std::setprecision(2) << "," <<
 		c.obtenerTipoDeCuenta() << "," <<
 		c.obtenerTipoDeMoneda() << "," <<
 		c.obtenerEscondido() << "," <<
@@ -126,6 +128,8 @@ vector<Cuentas> Cuentas::leerCuentas() {
 		int tmpTipoDeMoneda{ 1 };				// 6
 		bool tmpEscondido{ false };				// 7
 		bool tmpArchivado{ false };				// 8
+		
+		std::cout.precision(2);
 
 		for (int x{ 0 }; x < lineTmp.size(); ++x) { // iterar sobre cada letra en cada linea
 

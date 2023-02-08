@@ -7,3 +7,5 @@
 7,Roco,null,null,790000,0,0,0,0;
 8,Ultima,null,null,1e+06,0,0,0,0;
 9,testcomma,null,null,123,0,0,0,0;
+10,Axel,null,null,322,0,0,0,0;
+11,2,null,null,700.69,0,0,0,0;
