@@ -5,6 +5,8 @@
 #include <locale>
 #include <vector>
 
+#include "Cuentas.h" // here are the global files name defined in Cuentas.h
+
 using namespace std;
 
 class Ingresos
@@ -23,7 +25,8 @@ public:
 	// funciones
 	Ingresos(int id, int idCuentaAsociada, float cantidad);
 	void imprimirIngresos();
-
-	// static methods
 	static double obtenerIngresoTotalDeCuenta(vector<Ingresos>& i, int cuentaId);
+
+	static vector<Ingresos> leerIngresos(); // obtener todos los ingresos
+	bool guardarIngreso(Ingresos& i);
 };
