@@ -27,7 +27,7 @@ private:
 	int mTipoDeCuenta{ 0 };
 	int mTipoDeMoneda{ 0 };
 	bool mEscondido{ false };
-	ACCOUNT_ARCHIVED mArchivado{ ACCOUNT_ARCHIVED::ACTIVE };
+	bool mArchivado{ false };
 
 public:
 	// constructor
