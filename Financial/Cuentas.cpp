@@ -2,7 +2,7 @@
 
 // Constructors
 Cuentas::Cuentas(int id, string nombre, float valorInicial,
-	TIPODECUENTA tipoDeCuenta, int tipoDeMoneda, string comentarios) :
+	TIPODECUENTA tipoDeCuenta, TIPODEMONEDA tipoDeMoneda, string comentarios) :
 	mId{ id }, mNombre {nombre}, mValorInicial{ valorInicial },
 	mTipoDeCuenta {tipoDeCuenta}, mTipoDeMoneda {tipoDeMoneda}, mComentarios {comentarios}
 {	
@@ -37,8 +37,8 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial, TIPODECUENTA tipoDeC
 		mId,
 		mNombre,
 		mValorInicial,
-		mTipoDeCuenta, // tipo de cuenta
-		1, // tipo de moneda
+		mTipoDeCuenta,
+		TIPODEMONEDA::MXN, // MXN will be the default
 		"null"); // comentarios
 }
 
@@ -92,8 +92,8 @@ bool Cuentas::guardarCuenta(Cuentas& c) {
 		c.obtenerComentario() << "," <<
 		c.obtenerFechaCreacion() << "," <<
 		c.obtenerValorInicial() << std::showpoint << std::setprecision(2) << "," <<
-		c.tipoDeCuentaToString() << "," << // tipo de cuenta convertido a texto
-		c.obtenerTipoDeMoneda() << "," <<
+		c.tipoDeCuentaToString() << "," << // TIPODECUENTA convertido a texto
+		c.tipoDeMonedaToString() << "," << // TIPODEMONEDA convertido a texto
 		c.obtenerEscondido() << "," <<
 		c.obtenerArchivado() << ";" <<
 		endl;
@@ -121,8 +121,8 @@ vector<Cuentas> Cuentas::leerCuentas() {
 		string tmpComentarios{ "null" };		// 2
 		string tmpFechaCreacion{ "null" };		// 3
 		float tmpValorInicial{ 0.0f };			// 4
-		TIPODECUENTA tmpTipoDeCuenta{ TIPODECUENTA::DEBITO };				// 5
-		int tmpTipoDeMoneda{ 1 };				// 6
+		TIPODECUENTA tmpTipoDeCuenta{ TIPODECUENTA::OTHER };				// 5
+		TIPODEMONEDA tmpTipoDeMoneda{ TIPODEMONEDA::OTHER };				// 6
 		bool tmpEscondido{ false };				// 7
 		bool tmpArchivado{ false };				// 8
 		
@@ -142,7 +142,7 @@ vector<Cuentas> Cuentas::leerCuentas() {
 				else if (contadorDeComas == 3) tmpFechaCreacion = s;
 				else if (contadorDeComas == 4) tmpValorInicial = stof(s);
 				else if (contadorDeComas == 5) tmpTipoDeCuenta = StringToTipoDeCuenta(s);
-				else if (contadorDeComas == 6) tmpTipoDeMoneda = stoi(s);
+				else if (contadorDeComas == 6) tmpTipoDeMoneda = StringToTipoDeMoneda(s);
 				else if (contadorDeComas == 7) tmpEscondido = (s == "false") ? false : true;
 				else if (contadorDeComas == 8) {
 					tmpArchivado = (s == "false") ? false : true;
@@ -161,7 +161,7 @@ vector<Cuentas> Cuentas::leerCuentas() {
 	return cuentas;
 }
 
-/* Tipo de cuenta is stored in the file as text (this function is to convert "TIPODECUENTA" to text */
+/* TIPODECUENTA is stored in the file as text (this function is to convert "TIPODECUENTA" to text */
 string Cuentas::tipoDeCuentaToString() const {
 	switch (mTipoDeCuenta) {
 	case TIPODECUENTA::DEBITO: 
@@ -172,10 +172,32 @@ string Cuentas::tipoDeCuentaToString() const {
 	return "Other";
 }
 
-/* Tipo de cuenta is stored in the file as text (this function is to convert text to "TIPODECUENTA"*/
+/* TIPODECUENTA is stored in the file as text (this function is to convert text to "TIPODECUENTA"*/
 TIPODECUENTA Cuentas::StringToTipoDeCuenta(string s) {
 	if (s == "Debito") return TIPODECUENTA::DEBITO;
 	else if (s == "Credito") return TIPODECUENTA::CREDITO;
 
-	return TIPODECUENTA::OTHER; // default value is DEBITO
+	return TIPODECUENTA::OTHER;
+}
+
+/* TIPODEMONEDA is stored in the file as text (this function is to convert "TIPODEMONEDA" to text */
+string Cuentas::tipoDeMonedaToString() const {
+	switch (mTipoDeMoneda) {
+	case TIPODEMONEDA::MXN:
+		return "MXN";
+	case TIPODEMONEDA::USD:
+		return "USD";
+	case TIPODEMONEDA::EUR:
+		return "EUR";
+	}
+	return "Other";
+}
+
+/* TIPODEMONEDA is stored in the file as text (this function is to convert text to "TIPODEMONEDA"*/
+TIPODEMONEDA Cuentas::StringToTipoDeMoneda(string s) {
+	if (s == "MXN") return TIPODEMONEDA::MXN;
+	else if (s == "USD") return TIPODEMONEDA::USD;
+	else if (s == "EUR") return TIPODEMONEDA::EUR;
+
+	return TIPODEMONEDA::OTHER;
 }
