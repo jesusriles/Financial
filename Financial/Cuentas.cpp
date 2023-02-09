@@ -172,7 +172,7 @@ string Cuentas::tipoDeCuentaToString() const {
 }
 
 /* TIPODECUENTA is stored in the file as text (this function is to convert text to "TIPODECUENTA" */
-TIPODECUENTA Cuentas::stringToTipoDeCuenta(string &s) {
+TIPODECUENTA Cuentas::stringToTipoDeCuenta(const string &s) {
 	if (s == "Debito") return TIPODECUENTA::DEBITO;
 	else if (s == "Credito") return TIPODECUENTA::CREDITO;
 
@@ -193,7 +193,7 @@ string Cuentas::tipoDeMonedaToString() const {
 }
 
 /* TIPODEMONEDA is stored in the file as text (this function is to convert text to "TIPODEMONEDA" */
-TIPODEMONEDA Cuentas::stringToTipoDeMoneda(string &s) {
+TIPODEMONEDA Cuentas::stringToTipoDeMoneda(const string &s) {
 	if (s == "MXN") return TIPODEMONEDA::MXN;
 	else if (s == "USD") return TIPODEMONEDA::USD;
 	else if (s == "EUR") return TIPODEMONEDA::EUR;
@@ -217,7 +217,7 @@ string Cuentas::statusToString() const {
 }
 
 /* STATUS is stored in the file as text (this function is to convert text to "STATUS" */
-STATUS Cuentas::stringToStatus(string& s) {
+STATUS Cuentas::stringToStatus(const string& s) {
 	if (s == "Active") return STATUS::ACTIVE;
 	else if (s == "Hidden") return STATUS::HIDDEN;
 	else if (s == "Deleted") return STATUS::DELETED;

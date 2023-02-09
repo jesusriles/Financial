@@ -81,11 +81,11 @@ public:
 	static int getNextFreeId(const vector<Cuentas> &c); // get the next free Id to be assigned
 
 	string tipoDeCuentaToString() const;
-	static TIPODECUENTA stringToTipoDeCuenta(string &s);
+	static TIPODECUENTA stringToTipoDeCuenta(const string &s);
 
 	string tipoDeMonedaToString() const;
-	static TIPODEMONEDA stringToTipoDeMoneda(string &s);
+	static TIPODEMONEDA stringToTipoDeMoneda(const string &s);
 
 	string statusToString() const;
-	static STATUS stringToStatus(string& s);
+	static STATUS stringToStatus(const string& s);
 };
