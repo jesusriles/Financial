@@ -173,7 +173,7 @@ string Cuentas::tipoDeCuentaToString() const {
 }
 
 /* TIPODECUENTA is stored in the file as text (this function is to convert text to "TIPODECUENTA"*/
-TIPODECUENTA Cuentas::StringToTipoDeCuenta(string s) {
+TIPODECUENTA Cuentas::StringToTipoDeCuenta(string &s) {
 	if (s == "Debito") return TIPODECUENTA::DEBITO;
 	else if (s == "Credito") return TIPODECUENTA::CREDITO;
 
@@ -194,7 +194,7 @@ string Cuentas::tipoDeMonedaToString() const {
 }
 
 /* TIPODEMONEDA is stored in the file as text (this function is to convert text to "TIPODEMONEDA"*/
-TIPODEMONEDA Cuentas::StringToTipoDeMoneda(string s) {
+TIPODEMONEDA Cuentas::StringToTipoDeMoneda(string &s) {
 	if (s == "MXN") return TIPODEMONEDA::MXN;
 	else if (s == "USD") return TIPODEMONEDA::USD;
 	else if (s == "EUR") return TIPODEMONEDA::EUR;

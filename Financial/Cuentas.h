@@ -70,14 +70,14 @@ public:
 	void setArchivado(bool tmpArchivado) { mArchivado = tmpArchivado; };
 
 	// functions
-	static void imprimirCuentas(vector<Cuentas>& c);
+	static void imprimirCuentas(vector<Cuentas> &c);
 	static bool guardarCuenta(Cuentas& c);
 	static vector<Cuentas> leerCuentas();
 	static int getNextFreeId(const vector<Cuentas> &c); // get the next free Id to be assigned
 
 	string tipoDeCuentaToString() const;
-	static TIPODECUENTA StringToTipoDeCuenta(string s);
+	static TIPODECUENTA StringToTipoDeCuenta(string &s);
 
 	string tipoDeMonedaToString() const;
-	static TIPODEMONEDA StringToTipoDeMoneda(string s);
+	static TIPODEMONEDA StringToTipoDeMoneda(string &s);
 };
