@@ -2,7 +2,7 @@
 
 // Constructors
 Cuentas::Cuentas(int id, string nombre, float valorInicial,
-	int tipoDeCuenta, int tipoDeMoneda, string comentarios) :
+	TIPODECUENTA tipoDeCuenta, TIPODEMONEDA tipoDeMoneda, string comentarios) :
 	mId{ id }, mNombre {nombre}, mValorInicial{ valorInicial },
 	mTipoDeCuenta {tipoDeCuenta}, mTipoDeMoneda {tipoDeMoneda}, mComentarios {comentarios}
 {	
@@ -31,19 +31,18 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 	}
 ;}
 
-Cuentas::Cuentas(int id, string nombre, float valorInicial) 
-	:mId{ id }, mNombre { nombre }, mValorInicial{ valorInicial }
-{
+Cuentas::Cuentas(int id, string nombre, float valorInicial, TIPODECUENTA tipoDeCuenta) : 
+	mId{ id }, mNombre{ nombre }, mValorInicial{ valorInicial }, mTipoDeCuenta{ tipoDeCuenta } {
 	Cuentas::Cuentas(
-		id,
-		nombre,
-		valorInicial,
-		1, // tipo de cuenta
-		1, // tipo de moneda
+		mId,
+		mNombre,
+		mValorInicial,
+		mTipoDeCuenta,
+		TIPODEMONEDA::MXN, // MXN will be the default
 		"null"); // comentarios
 }
 
-void Cuentas::imprimirCuentas(vector<Cuentas> &c)
+void Cuentas::imprimirCuentas(const vector<Cuentas> &c)
 { 
 	system("CLS");
 	if (c.empty()) {
@@ -52,6 +51,9 @@ void Cuentas::imprimirCuentas(vector<Cuentas> &c)
 	}
 
 	for (Cuentas cuenta : c) {
+		if (cuenta.obtenerStatus() == STATUS::HIDDEN || 
+			cuenta.obtenerStatus() == STATUS::DELETED ||
+			cuenta.obtenerStatus() == STATUS::ARCHIVED) continue;
 		int tabSize = 25 - cuenta.mNombre.size();
 
 		std::cout.imbue(std::locale(""));
@@ -87,20 +89,16 @@ bool Cuentas::guardarCuenta(Cuentas& c) {
 	ofstream file;
 	file.open(ARCHIVO_CUENTAS, fstream::app);
 
-	
-
 	file <<
 		c.obtenerId() << "," <<
 		c.obtenerNombre() << "," <<
 		c.obtenerComentario() << "," <<
 		c.obtenerFechaCreacion() << "," <<
 		c.obtenerValorInicial() << std::showpoint << std::setprecision(2) << "," <<
-		c.obtenerTipoDeCuenta() << "," <<
-		c.obtenerTipoDeMoneda() << "," <<
-		c.obtenerEscondido() << "," <<
-		c.obtenerArchivado() << ";" <<
+		c.tipoDeCuentaToString() << "," <<	// TIPODECUENTA changed to text
+		c.tipoDeMonedaToString() << "," <<	// TIPODEMONEDA changed to text
+		c.statusToString() << ";" <<		// STATUS changed to text
 		endl;
-
 	file.close();
 	return true;
 }
@@ -124,11 +122,10 @@ vector<Cuentas> Cuentas::leerCuentas() {
 		string tmpComentarios{ "null" };		// 2
 		string tmpFechaCreacion{ "null" };		// 3
 		float tmpValorInicial{ 0.0f };			// 4
-		int tmpTipoDeCuenta{ 1 };				// 5
-		int tmpTipoDeMoneda{ 1 };				// 6
-		bool tmpEscondido{ false };				// 7
-		bool tmpArchivado{ false };				// 8
-		
+		TIPODECUENTA tmpTipoDeCuenta{ TIPODECUENTA::OTHER };				// 5
+		TIPODEMONEDA tmpTipoDeMoneda{ TIPODEMONEDA::OTHER };				// 6
+		STATUS tmpStatus{ STATUS::OTHER };				// 7
+
 		std::cout.precision(2);
 
 		for (int x{ 0 }; x < lineTmp.size(); ++x) { // iterar sobre cada letra en cada linea
@@ -144,17 +141,16 @@ vector<Cuentas> Cuentas::leerCuentas() {
 				else if (contadorDeComas == 2) tmpComentarios = s;
 				else if (contadorDeComas == 3) tmpFechaCreacion = s;
 				else if (contadorDeComas == 4) tmpValorInicial = stof(s);
-				else if (contadorDeComas == 5) tmpTipoDeCuenta = stoi(s);
-				else if (contadorDeComas == 6) tmpTipoDeMoneda = stoi(s);
-				else if (contadorDeComas == 7) tmpEscondido = (s == "false") ? false : true;
-				else if (contadorDeComas == 8) {
-					tmpArchivado = (s == "false") ? false : true;
+				else if (contadorDeComas == 5) tmpTipoDeCuenta = stringToTipoDeCuenta(s);
+				else if (contadorDeComas == 6) tmpTipoDeMoneda = stringToTipoDeMoneda(s);
+				else if (contadorDeComas == 7) {
+					tmpStatus = stringToStatus(s);
 
 					// se crea la cuenta y se agrega al vector cuentas
-					cuentas.push_back(Cuentas(tmpId, tmpNombre, tmpValorInicial,
-						tmpTipoDeCuenta, tmpTipoDeMoneda, tmpComentarios));
+					Cuentas tmpAccount{ tmpId, tmpNombre, tmpValorInicial, tmpTipoDeCuenta, tmpTipoDeMoneda, tmpComentarios };
+					tmpAccount.setStatus(tmpStatus); // set the status
+					cuentas.push_back(tmpAccount);
 				}
-
 				contadorDeComas++;
 				s = "";
 			}
@@ -162,4 +158,70 @@ vector<Cuentas> Cuentas::leerCuentas() {
 	}
 	file.close();
 	return cuentas;
+}
+
+/* TIPODECUENTA is stored in the file as text (this function is to convert "TIPODECUENTA" to text */
+string Cuentas::tipoDeCuentaToString() const {
+	switch (mTipoDeCuenta) {
+	case TIPODECUENTA::DEBITO: 
+		return "Debito";
+	case TIPODECUENTA::CREDITO:
+		return "Credito";
+	}
+	return "Other";
+}
+
+/* TIPODECUENTA is stored in the file as text (this function is to convert text to "TIPODECUENTA" */
+TIPODECUENTA Cuentas::stringToTipoDeCuenta(const string &s) {
+	if (s == "Debito") return TIPODECUENTA::DEBITO;
+	else if (s == "Credito") return TIPODECUENTA::CREDITO;
+
+	return TIPODECUENTA::OTHER;
+}
+
+/* TIPODEMONEDA is stored in the file as text (this function is to convert "TIPODEMONEDA" to text */
+string Cuentas::tipoDeMonedaToString() const {
+	switch (mTipoDeMoneda) {
+	case TIPODEMONEDA::MXN:
+		return "MXN";
+	case TIPODEMONEDA::USD:
+		return "USD";
+	case TIPODEMONEDA::EUR:
+		return "EUR";
+	}
+	return "Other";
+}
+
+/* TIPODEMONEDA is stored in the file as text (this function is to convert text to "TIPODEMONEDA" */
+TIPODEMONEDA Cuentas::stringToTipoDeMoneda(const string &s) {
+	if (s == "MXN") return TIPODEMONEDA::MXN;
+	else if (s == "USD") return TIPODEMONEDA::USD;
+	else if (s == "EUR") return TIPODEMONEDA::EUR;
+
+	return TIPODEMONEDA::OTHER;
+}
+
+/* STATUS is stored in the file as text (this function is to convert "STATUS" to text */
+string Cuentas::statusToString() const {
+	switch (mStatus) {
+	case STATUS::ACTIVE:
+		return "Active";
+	case STATUS::HIDDEN:
+		return "Hidden";
+	case STATUS::DELETED:
+		return "Deleted";
+	case STATUS::ARCHIVED:
+		return "Archived";
+	}
+	return "Other";
+}
+
+/* STATUS is stored in the file as text (this function is to convert text to "STATUS" */
+STATUS Cuentas::stringToStatus(const string& s) {
+	if (s == "Active") return STATUS::ACTIVE;
+	else if (s == "Hidden") return STATUS::HIDDEN;
+	else if (s == "Deleted") return STATUS::DELETED;
+	else if (s == "Archived") return STATUS::ARCHIVED;
+
+	return STATUS::OTHER;
 }

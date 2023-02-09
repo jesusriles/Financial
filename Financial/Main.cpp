@@ -23,7 +23,10 @@ int main() {
 		else if (optionCuenta == 2) { // agregar cuenta
 			// pedir la informacion de la cuenta nueva que se va a crear
 			string nombre{};
-			float valor{ 0.0f };
+			float valor{ 0.00f };
+
+			int tmpTipoDeCuentaInt{ 0 };
+			TIPODECUENTA tipoDeCuenta{ TIPODECUENTA::OTHER };
 
 			cout << "Nombre de cuenta> ";
 			cin.ignore();
@@ -31,10 +34,14 @@ int main() {
 
 			cout << "Valor inicial de cuenta> ";
 			cin >> setprecision(2) >> valor;
+			
+			cout << "Tipo de cuenta:\n(1) Debito\n(2) Credito\n> ";
+			cin >> tmpTipoDeCuentaInt;
+			tipoDeCuenta = static_cast<TIPODECUENTA>(tmpTipoDeCuentaInt);
 
 			try {
 				int id = Cuentas::getNextFreeId(cuentas);
-				Cuentas cuenta = Cuentas(id, nombre, valor);
+				Cuentas cuenta = Cuentas(id, nombre, valor, tipoDeCuenta);
 				Cuentas::guardarCuenta(cuenta);
 			}
 			catch (...) {
