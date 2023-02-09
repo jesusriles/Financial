@@ -2,7 +2,7 @@
 
 // Constructors
 Cuentas::Cuentas(int id, string nombre, float valorInicial,
-	int tipoDeCuenta, int tipoDeMoneda, string comentarios) :
+	TIPODECUENTA tipoDeCuenta, int tipoDeMoneda, string comentarios) :
 	mId{ id }, mNombre {nombre}, mValorInicial{ valorInicial },
 	mTipoDeCuenta {tipoDeCuenta}, mTipoDeMoneda {tipoDeMoneda}, mComentarios {comentarios}
 {	
@@ -31,14 +31,13 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 	}
 ;}
 
-Cuentas::Cuentas(int id, string nombre, float valorInicial) 
-	:mId{ id }, mNombre { nombre }, mValorInicial{ valorInicial }
-{
+Cuentas::Cuentas(int id, string nombre, float valorInicial, TIPODECUENTA tipoDeCuenta) : 
+	mId{ id }, mNombre{ nombre }, mValorInicial{ valorInicial }, mTipoDeCuenta{ tipoDeCuenta } {
 	Cuentas::Cuentas(
-		id,
-		nombre,
-		valorInicial,
-		1, // tipo de cuenta
+		mId,
+		mNombre,
+		mValorInicial,
+		mTipoDeCuenta, // tipo de cuenta
 		1, // tipo de moneda
 		"null"); // comentarios
 }
@@ -87,15 +86,13 @@ bool Cuentas::guardarCuenta(Cuentas& c) {
 	ofstream file;
 	file.open(ARCHIVO_CUENTAS, fstream::app);
 
-	
-
 	file <<
 		c.obtenerId() << "," <<
 		c.obtenerNombre() << "," <<
 		c.obtenerComentario() << "," <<
 		c.obtenerFechaCreacion() << "," <<
 		c.obtenerValorInicial() << std::showpoint << std::setprecision(2) << "," <<
-		c.obtenerTipoDeCuenta() << "," <<
+		c.tipoDeCuentaToString() << "," << // tipo de cuenta convertido a texto
 		c.obtenerTipoDeMoneda() << "," <<
 		c.obtenerEscondido() << "," <<
 		c.obtenerArchivado() << ";" <<
@@ -124,7 +121,7 @@ vector<Cuentas> Cuentas::leerCuentas() {
 		string tmpComentarios{ "null" };		// 2
 		string tmpFechaCreacion{ "null" };		// 3
 		float tmpValorInicial{ 0.0f };			// 4
-		int tmpTipoDeCuenta{ 1 };				// 5
+		TIPODECUENTA tmpTipoDeCuenta{ TIPODECUENTA::DEBITO };				// 5
 		int tmpTipoDeMoneda{ 1 };				// 6
 		bool tmpEscondido{ false };				// 7
 		bool tmpArchivado{ false };				// 8
@@ -144,7 +141,7 @@ vector<Cuentas> Cuentas::leerCuentas() {
 				else if (contadorDeComas == 2) tmpComentarios = s;
 				else if (contadorDeComas == 3) tmpFechaCreacion = s;
 				else if (contadorDeComas == 4) tmpValorInicial = stof(s);
-				else if (contadorDeComas == 5) tmpTipoDeCuenta = stoi(s);
+				else if (contadorDeComas == 5) tmpTipoDeCuenta = StringToTipoDeCuenta(s);
 				else if (contadorDeComas == 6) tmpTipoDeMoneda = stoi(s);
 				else if (contadorDeComas == 7) tmpEscondido = (s == "false") ? false : true;
 				else if (contadorDeComas == 8) {
@@ -162,4 +159,23 @@ vector<Cuentas> Cuentas::leerCuentas() {
 	}
 	file.close();
 	return cuentas;
+}
+
+/* Tipo de cuenta is stored in the file as text (this function is to convert "TIPODECUENTA" to text */
+string Cuentas::tipoDeCuentaToString() const {
+	switch (mTipoDeCuenta) {
+	case TIPODECUENTA::DEBITO: 
+		return "Debito";
+	case TIPODECUENTA::CREDITO:
+		return "Credito";
+	}
+	return "Other";
+}
+
+/* Tipo de cuenta is stored in the file as text (this function is to convert text to "TIPODECUENTA"*/
+TIPODECUENTA Cuentas::StringToTipoDeCuenta(string s) {
+	if (s == "Debito") return TIPODECUENTA::DEBITO;
+	else if (s == "Credito") return TIPODECUENTA::CREDITO;
+
+	return TIPODECUENTA::OTHER; // default value is DEBITO
 }
