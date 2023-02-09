@@ -28,6 +28,14 @@ enum class TIPODEMONEDA {
 	OTHER = 99
 };
 
+enum class STATUS {
+	ACTIVE = 1,		
+	HIDDEN = 2,		// account is active but not visible
+	DELETED = 3,	// account was marked as deleted (should be able to recover this account)
+	ARCHIVED = 4,	// account archived (all related to this account should be moved to another file)
+	OTHER = 99		// should not be used
+};
+
 class Cuentas 
 {
 private:
@@ -36,11 +44,10 @@ private:
 	float mValorInicial{ 0.0f };
 	TIPODECUENTA mTipoDeCuenta{ TIPODECUENTA::DEBITO };
 	TIPODEMONEDA mTipoDeMoneda{ TIPODEMONEDA::MXN };
+	STATUS mStatus{ STATUS::ACTIVE };
 
+	string mFechaCreacion{ "null" };
 	string mComentarios{ "null" };
-	string mFechaCreacion{ "null" };	
-	bool mEscondido{ false };
-	bool mArchivado{ false };
 
 public:
 	// constructor
@@ -55,8 +62,7 @@ public:
 	float obtenerValorInicial() const { return mValorInicial; };
 	TIPODECUENTA obtenerTipoDeCuenta() const { return mTipoDeCuenta; };
 	TIPODEMONEDA obtenerTipoDeMoneda() const { return mTipoDeMoneda; };
-	bool obtenerEscondido() const { return mEscondido; };
-	bool obtenerArchivado() const { return mArchivado; };
+	STATUS obtenerStatus() const { return mStatus; };
 
 	// setters
 	void setId(int tmpId) { mId = tmpId; }
@@ -66,18 +72,20 @@ public:
 	void setValorInicial(float tmpValorInicial) { mValorInicial = tmpValorInicial; };
 	void setTipoDeCuenta(TIPODECUENTA tmpTipoDeCuenta) { mTipoDeCuenta = tmpTipoDeCuenta; };
 	void setTipoDeMoneda(TIPODEMONEDA tmpTipoDeMoneda) { mTipoDeMoneda = tmpTipoDeMoneda; };
-	void setEscondido(bool tmpEscondido) { mEscondido = tmpEscondido; };
-	void setArchivado(bool tmpArchivado) { mArchivado = tmpArchivado; };
+	void setStatus(STATUS tmpStatus) { mStatus = tmpStatus; };
 
 	// functions
-	static void imprimirCuentas(vector<Cuentas> &c);
-	static bool guardarCuenta(Cuentas& c);
+	static void imprimirCuentas(const vector<Cuentas> &c);
+	static bool guardarCuenta(Cuentas &c);
 	static vector<Cuentas> leerCuentas();
 	static int getNextFreeId(const vector<Cuentas> &c); // get the next free Id to be assigned
 
 	string tipoDeCuentaToString() const;
-	static TIPODECUENTA StringToTipoDeCuenta(string &s);
+	static TIPODECUENTA stringToTipoDeCuenta(string &s);
 
 	string tipoDeMonedaToString() const;
-	static TIPODEMONEDA StringToTipoDeMoneda(string &s);
+	static TIPODEMONEDA stringToTipoDeMoneda(string &s);
+
+	string statusToString() const;
+	static STATUS stringToStatus(string& s);
 };

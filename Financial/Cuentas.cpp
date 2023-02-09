@@ -42,7 +42,7 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial, TIPODECUENTA tipoDeC
 		"null"); // comentarios
 }
 
-void Cuentas::imprimirCuentas(vector<Cuentas> &c)
+void Cuentas::imprimirCuentas(const vector<Cuentas> &c)
 { 
 	system("CLS");
 	if (c.empty()) {
@@ -51,6 +51,9 @@ void Cuentas::imprimirCuentas(vector<Cuentas> &c)
 	}
 
 	for (Cuentas cuenta : c) {
+		if (cuenta.obtenerStatus() == STATUS::HIDDEN || 
+			cuenta.obtenerStatus() == STATUS::DELETED ||
+			cuenta.obtenerStatus() == STATUS::ARCHIVED) continue;
 		int tabSize = 25 - cuenta.mNombre.size();
 
 		std::cout.imbue(std::locale(""));
@@ -92,12 +95,10 @@ bool Cuentas::guardarCuenta(Cuentas& c) {
 		c.obtenerComentario() << "," <<
 		c.obtenerFechaCreacion() << "," <<
 		c.obtenerValorInicial() << std::showpoint << std::setprecision(2) << "," <<
-		c.tipoDeCuentaToString() << "," << // TIPODECUENTA convertido a texto
-		c.tipoDeMonedaToString() << "," << // TIPODEMONEDA convertido a texto
-		c.obtenerEscondido() << "," <<
-		c.obtenerArchivado() << ";" <<
+		c.tipoDeCuentaToString() << "," <<	// TIPODECUENTA changed to text
+		c.tipoDeMonedaToString() << "," <<	// TIPODEMONEDA changed to text
+		c.statusToString() << ";" <<		// STATUS changed to text
 		endl;
-
 	file.close();
 	return true;
 }
@@ -123,9 +124,8 @@ vector<Cuentas> Cuentas::leerCuentas() {
 		float tmpValorInicial{ 0.0f };			// 4
 		TIPODECUENTA tmpTipoDeCuenta{ TIPODECUENTA::OTHER };				// 5
 		TIPODEMONEDA tmpTipoDeMoneda{ TIPODEMONEDA::OTHER };				// 6
-		bool tmpEscondido{ false };				// 7
-		bool tmpArchivado{ false };				// 8
-		
+		STATUS tmpStatus{ STATUS::OTHER };				// 7
+
 		std::cout.precision(2);
 
 		for (int x{ 0 }; x < lineTmp.size(); ++x) { // iterar sobre cada letra en cada linea
@@ -141,17 +141,16 @@ vector<Cuentas> Cuentas::leerCuentas() {
 				else if (contadorDeComas == 2) tmpComentarios = s;
 				else if (contadorDeComas == 3) tmpFechaCreacion = s;
 				else if (contadorDeComas == 4) tmpValorInicial = stof(s);
-				else if (contadorDeComas == 5) tmpTipoDeCuenta = StringToTipoDeCuenta(s);
-				else if (contadorDeComas == 6) tmpTipoDeMoneda = StringToTipoDeMoneda(s);
-				else if (contadorDeComas == 7) tmpEscondido = (s == "false") ? false : true;
-				else if (contadorDeComas == 8) {
-					tmpArchivado = (s == "false") ? false : true;
+				else if (contadorDeComas == 5) tmpTipoDeCuenta = stringToTipoDeCuenta(s);
+				else if (contadorDeComas == 6) tmpTipoDeMoneda = stringToTipoDeMoneda(s);
+				else if (contadorDeComas == 7) {
+					tmpStatus = stringToStatus(s);
 
 					// se crea la cuenta y se agrega al vector cuentas
-					cuentas.push_back(Cuentas(tmpId, tmpNombre, tmpValorInicial,
-						tmpTipoDeCuenta, tmpTipoDeMoneda, tmpComentarios));
+					Cuentas tmpAccount{ tmpId, tmpNombre, tmpValorInicial, tmpTipoDeCuenta, tmpTipoDeMoneda, tmpComentarios };
+					tmpAccount.setStatus(tmpStatus); // set the status
+					cuentas.push_back(tmpAccount);
 				}
-
 				contadorDeComas++;
 				s = "";
 			}
@@ -172,8 +171,8 @@ string Cuentas::tipoDeCuentaToString() const {
 	return "Other";
 }
 
-/* TIPODECUENTA is stored in the file as text (this function is to convert text to "TIPODECUENTA"*/
-TIPODECUENTA Cuentas::StringToTipoDeCuenta(string &s) {
+/* TIPODECUENTA is stored in the file as text (this function is to convert text to "TIPODECUENTA" */
+TIPODECUENTA Cuentas::stringToTipoDeCuenta(string &s) {
 	if (s == "Debito") return TIPODECUENTA::DEBITO;
 	else if (s == "Credito") return TIPODECUENTA::CREDITO;
 
@@ -193,11 +192,36 @@ string Cuentas::tipoDeMonedaToString() const {
 	return "Other";
 }
 
-/* TIPODEMONEDA is stored in the file as text (this function is to convert text to "TIPODEMONEDA"*/
-TIPODEMONEDA Cuentas::StringToTipoDeMoneda(string &s) {
+/* TIPODEMONEDA is stored in the file as text (this function is to convert text to "TIPODEMONEDA" */
+TIPODEMONEDA Cuentas::stringToTipoDeMoneda(string &s) {
 	if (s == "MXN") return TIPODEMONEDA::MXN;
 	else if (s == "USD") return TIPODEMONEDA::USD;
 	else if (s == "EUR") return TIPODEMONEDA::EUR;
 
 	return TIPODEMONEDA::OTHER;
+}
+
+/* STATUS is stored in the file as text (this function is to convert "STATUS" to text */
+string Cuentas::statusToString() const {
+	switch (mStatus) {
+	case STATUS::ACTIVE:
+		return "Active";
+	case STATUS::HIDDEN:
+		return "Hidden";
+	case STATUS::DELETED:
+		return "Deleted";
+	case STATUS::ARCHIVED:
+		return "Archived";
+	}
+	return "Other";
+}
+
+/* STATUS is stored in the file as text (this function is to convert text to "STATUS" */
+STATUS Cuentas::stringToStatus(string& s) {
+	if (s == "Active") return STATUS::ACTIVE;
+	else if (s == "Hidden") return STATUS::HIDDEN;
+	else if (s == "Deleted") return STATUS::DELETED;
+	else if (s == "Archived") return STATUS::ARCHIVED;
+
+	return STATUS::OTHER;
 }
