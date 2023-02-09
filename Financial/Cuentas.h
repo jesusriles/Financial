@@ -6,6 +6,7 @@
 #include <fstream> 
 
 using std::string;
+using namespace std;
 
 // global variables
 const string ARCHIVO_CUENTAS{ "Cuentas.txt" };
@@ -13,8 +14,6 @@ const string ARCHIVO_INGRESOS{ "Ingresos.txt" };
 const string ARCHIVO_GASTOS{ "Gastos.txt" };
 
 const int MAX_AVAILABLE_IDS{ 99 };
-
-using namespace std;
 
 class Cuentas 
 {
