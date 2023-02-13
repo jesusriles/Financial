@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <vector>
 #include <fstream> 
+#include <limits>
 
 using std::string;
 using namespace std;
@@ -78,7 +79,7 @@ public:
 	static void imprimirCuentas(const vector<Cuentas> &c);
 	static bool guardarCuenta(Cuentas &c);
 	static vector<Cuentas> leerCuentas();
-	static int getNextFreeId(const vector<Cuentas> &c); // get the next free Id to be assigned
+	static int getNextFreeId(); // get the next free Id to be assigned
 
 	string tipoDeCuentaToString() const;
 	static TIPODECUENTA stringToTipoDeCuenta(const string &s);

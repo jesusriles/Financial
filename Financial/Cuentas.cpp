@@ -60,10 +60,12 @@ void Cuentas::imprimirCuentas(const vector<Cuentas> &c)
 		std::cout << std::fixed << std::showpoint << std::setprecision(2);
 		cout << cuenta.mNombre << setw(tabSize) << "$" << cuenta.mValorInicial << endl;
 	}
+	cout << endl;
+	system("PAUSE"); // wait user input to continue
 }
 
-int Cuentas::getNextFreeId(const vector<Cuentas> &c) {
-
+int Cuentas::getNextFreeId() {
+	vector<Cuentas> c = Cuentas::leerCuentas();
 	if (c.empty())
 		return 1;
 
