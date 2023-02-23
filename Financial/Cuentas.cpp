@@ -228,18 +228,6 @@ STATUS Cuentas::stringToStatus(const string& s) {
 	return STATUS::OTHER;
 }
 
-/*
-	- update the status of the current object
-
-	- update the status in the file
-		[] create a backup of the original file to <filename>.old.#
-
-		[x] create a new file with <filename> where all information is going to be store
-		[x] Read line by line
-			[x] if the line is not the one to be replaced, write it to a new file
-			[x] if the line is the one to be replaced, replace the word and write it to the new file
-*/
-
 void Cuentas::deleteAccount() {
 
 	if (this->obtenerStatus() == STATUS::DELETED) { return; }
@@ -248,8 +236,6 @@ void Cuentas::deleteAccount() {
 	mStatus = STATUS::DELETED;
 	string newStatusToString{ this->statusToString() };
 
-	// update the status in the file
-//	auto status = rename(ARCHIVO_CUENTAS.c_str(), "Hola.txt");
 	fstream file(ARCHIVO_CUENTAS, std::ifstream::in);
 
 	replaceWordInFileWithId(oldStatusToString, newStatusToString, file, ARCHIVO_CUENTAS, mId);

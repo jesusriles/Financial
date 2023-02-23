@@ -29,6 +29,7 @@ void Menu::optionsMenu(const int &option) {
 		if (optionCuenta == 1) Cuentas::imprimirCuentas(cuentas);
 		else if (optionCuenta == 2)	Menu::createAccount();
 		else if (optionCuenta == 3) Menu::deleteAccount(cuentas);
+		else if (optionCuenta == 4) Menu::restoreAccount(cuentas);
 	}
 }
 
@@ -39,8 +40,8 @@ int Menu::printMenuAccounts() {
 	cout << "--- Actividades de cuenta ---\n";
 	cout << "(1) Visualizar cuentas" << endl;
 	cout << "(2) Agregar cuenta" << endl;
-	cout << "#(3) Eliminar cuenta" << endl;
-	cout << "#(4) Eliminar cuenta" << endl;
+	cout << "(3) Eliminar cuenta" << endl;
+	cout << "#(4) Recuperar cuenta" << endl;
 
 	cout << "(99) Salir" << endl;
 	cout << "Option > ";
@@ -84,6 +85,7 @@ void Menu::deleteAccount(vector<Cuentas> &c) {
 
 	cout << "Select the account you want to delete: " << endl;
 	for (Cuentas cuenta : c) {
+		if (cuenta.obtenerStatus() == STATUS::DELETED) continue;
 		cout << cuenta.obtenerId() << "\t" << cuenta.obtenerNombre() << endl; //TODO: No hay una funcion que ya imprime esto? deberia ser una funcion en cuentas en vez de ponerlo aqui
 	}
 	cout << endl << "> ";
@@ -95,4 +97,8 @@ void Menu::deleteAccount(vector<Cuentas> &c) {
 			break;
 		}
 	}
+}
+
+void Menu::restoreAccount(vector<Cuentas> &c) {
+
 }
