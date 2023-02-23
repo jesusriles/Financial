@@ -50,10 +50,9 @@ private:
 	string mFechaCreacion{ "null" };
 	string mComentarios{ "null" };
 
-	static void replaceWordInFileWithId(
-		const string& wordToReplace, const string& newWord, 
-		fstream& file, const string fileName,
-		const int &id);
+	static void replaceWordInFileWithId(const string& wordToReplace, const string& newWord, 
+		fstream& file, const string fileName, const int &id);
+	static string getIdFromLine(const string& line);
 
 public:
 	// constructor
@@ -97,4 +96,5 @@ public:
 	static STATUS stringToStatus(const string& s);
 
 	void deleteAccount();
+	void restoreAccount();
 };

@@ -84,7 +84,7 @@ void Menu::deleteAccount(vector<Cuentas> &c) {
 	int idToDelete{ 0 };
 
 	cout << "Select the account you want to delete: " << endl;
-	for (Cuentas cuenta : c) {
+	for (Cuentas &cuenta : c) {
 		if (cuenta.obtenerStatus() == STATUS::DELETED) continue;
 		cout << cuenta.obtenerId() << "\t" << cuenta.obtenerNombre() << endl; //TODO: No hay una funcion que ya imprime esto? deberia ser una funcion en cuentas en vez de ponerlo aqui
 	}
@@ -100,5 +100,22 @@ void Menu::deleteAccount(vector<Cuentas> &c) {
 }
 
 void Menu::restoreAccount(vector<Cuentas> &c) {
+	system("CLS");
+	// print accounts
+	int idToRestore{ 0 };
 
+	cout << "Select the account you want to restore: " << endl;
+	for (Cuentas &cuenta : c) {
+		if (cuenta.obtenerStatus() == STATUS::ACTIVE) continue;
+		cout << cuenta.obtenerId() << "\t" << cuenta.obtenerNombre() << endl; //TODO: No hay una funcion que ya imprime esto? deberia ser una funcion en cuentas en vez de ponerlo aqui
+	}
+	cout << endl << "> ";
+	cin >> idToRestore;
+
+	for (Cuentas &cuenta : c) {
+		if (cuenta.obtenerId() == idToRestore) {
+			cuenta.restoreAccount();
+			break;
+		}
+	}
 }

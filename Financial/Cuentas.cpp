@@ -242,10 +242,22 @@ void Cuentas::deleteAccount() {
 	file.close();
 }
 
-void Cuentas::replaceWordInFileWithId(
-	const string& wordToReplace, const string& newWord, 
-	fstream& file, string fileName, 
-	const int& id) {
+void Cuentas::restoreAccount() {
+
+	if (this->obtenerStatus() == STATUS::ACTIVE) { return; }
+
+	string oldStatusToString{ this->statusToString() };
+	mStatus = STATUS::ACTIVE;
+	string newStatusToString{ this->statusToString() };
+
+	fstream file(ARCHIVO_CUENTAS, std::ifstream::in);
+
+	replaceWordInFileWithId(oldStatusToString, newStatusToString, file, ARCHIVO_CUENTAS, mId);
+	file.close();
+}
+
+void Cuentas::replaceWordInFileWithId(const string& wordToReplace, const string& newWord, 
+	fstream& file, string fileName, const int& id) {
 	
 	ofstream newFile;
 	string newFileName{ fileName + ".tmp" };
@@ -254,7 +266,7 @@ void Cuentas::replaceWordInFileWithId(
 
 	string lineTmp{};
 	for (int i{ 0 }; getline(file, lineTmp); ++i) {
-		string tmpId{ lineTmp[0] }; // TODO: this is a mistake, cause it only works with 1 digit accounts
+		string tmpId{ getIdFromLine(lineTmp) };
 
 		if (to_string(id) == tmpId) {
 			size_t pos = lineTmp.find(wordToReplace);
@@ -270,4 +282,13 @@ void Cuentas::replaceWordInFileWithId(
 	remove("OLD_FILE_NAME.tmp.txt");
 	rename(fileName.c_str(), "OLD_FILE_NAME.tmp.txt");
 	rename(newFileName.c_str(), fileName.c_str() );
+}
+
+string Cuentas::getIdFromLine(const string& line) {
+	string id{};
+	for (char c : line) {
+		if (c == ',') break;
+		id += c;
+	}
+	return id;
 }
