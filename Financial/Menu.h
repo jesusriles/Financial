@@ -16,4 +16,6 @@ public:
 	static void optionsMenu(const int &option);
 
 	static void createAccount();
+
+	static void deleteAccount(vector<Cuentas> &c);
 };

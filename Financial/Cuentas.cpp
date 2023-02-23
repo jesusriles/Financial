@@ -227,3 +227,61 @@ STATUS Cuentas::stringToStatus(const string& s) {
 
 	return STATUS::OTHER;
 }
+
+/*
+	- update the status of the current object
+
+	- update the status in the file
+		[] create a backup of the original file to <filename>.old.#
+
+		[x] create a new file with <filename> where all information is going to be store
+		[x] Read line by line
+			[x] if the line is not the one to be replaced, write it to a new file
+			[x] if the line is the one to be replaced, replace the word and write it to the new file
+*/
+
+void Cuentas::deleteAccount() {
+
+	if (this->obtenerStatus() == STATUS::DELETED) { return; }
+
+	string oldStatusToString{ this->statusToString() };
+	mStatus = STATUS::DELETED;
+	string newStatusToString{ this->statusToString() };
+
+	// update the status in the file
+//	auto status = rename(ARCHIVO_CUENTAS.c_str(), "Hola.txt");
+	fstream file(ARCHIVO_CUENTAS, std::ifstream::in);
+
+	replaceWordInFileWithId(oldStatusToString, newStatusToString, file, ARCHIVO_CUENTAS, mId);
+	file.close();
+}
+
+void Cuentas::replaceWordInFileWithId(
+	const string& wordToReplace, const string& newWord, 
+	fstream& file, string fileName, 
+	const int& id) {
+	
+	ofstream newFile;
+	string newFileName{ fileName + ".tmp" };
+
+	newFile.open(newFileName, fstream::app);
+
+	string lineTmp{};
+	for (int i{ 0 }; getline(file, lineTmp); ++i) {
+		string tmpId{ lineTmp[0] }; // TODO: this is a mistake, cause it only works with 1 digit accounts
+
+		if (to_string(id) == tmpId) {
+			size_t pos = lineTmp.find(wordToReplace);
+			if (pos != std::string::npos) {
+				lineTmp.replace(pos, wordToReplace.length(), newWord);
+			}			
+		}
+		newFile << lineTmp << "\n";
+	}
+	newFile.close();
+	file.close();
+	
+	remove("OLD_FILE_NAME.tmp.txt");
+	rename(fileName.c_str(), "OLD_FILE_NAME.tmp.txt");
+	rename(newFileName.c_str(), fileName.c_str() );
+}

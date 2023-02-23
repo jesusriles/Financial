@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream> 
 #include <limits>
+#include <filesystem>
 
 using std::string;
 using namespace std;
@@ -50,8 +51,14 @@ private:
 	string mFechaCreacion{ "null" };
 	string mComentarios{ "null" };
 
+	static void replaceWordInFileWithId(
+		const string& wordToReplace, const string& newWord, 
+		fstream& file, const string fileName,
+		const int &id);
+
 public:
 	// constructor
+	Cuentas() = delete;
 	Cuentas(int id, string nombre, float valorInicial, TIPODECUENTA tipoDeCuenta, TIPODEMONEDA tipoDeMoneda, string comentarios);
 	Cuentas(int id, string nombre, float valorInicial, TIPODECUENTA tipoDeCuenta);
 
@@ -89,4 +96,6 @@ public:
 
 	string statusToString() const;
 	static STATUS stringToStatus(const string& s);
+
+	void deleteAccount();
 };

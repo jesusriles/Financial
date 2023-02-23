@@ -26,14 +26,9 @@ void Menu::optionsMenu(const int &option) {
 		int optionCuenta = printMenuAccounts();
 
 		vector<Cuentas> cuentas = Cuentas::leerCuentas();
-		if (optionCuenta == 1) {
-		
-			Cuentas::imprimirCuentas(cuentas);
-		}
-
-		else if (optionCuenta == 2) {
-			Menu::createAccount();
-		}
+		if (optionCuenta == 1) Cuentas::imprimirCuentas(cuentas);
+		else if (optionCuenta == 2)	Menu::createAccount();
+		else if (optionCuenta == 3) Menu::deleteAccount(cuentas);
 	}
 }
 
@@ -79,5 +74,25 @@ void Menu::createAccount() {
 	}
 	catch (...) {
 		cout << "[ERROR] La cuenta no se pudo crear correctamente." << endl;
+	}
+}
+
+void Menu::deleteAccount(vector<Cuentas> &c) {
+	system("CLS");
+	// print accounts
+	int idToDelete{ 0 };
+
+	cout << "Select the account you want to delete: " << endl;
+	for (Cuentas cuenta : c) {
+		cout << cuenta.obtenerId() << "\t" << cuenta.obtenerNombre() << endl; //TODO: No hay una funcion que ya imprime esto? deberia ser una funcion en cuentas en vez de ponerlo aqui
+	}
+	cout << endl << "> ";
+	cin >> idToDelete;
+
+	for (Cuentas cuenta : c) {
+		if (cuenta.obtenerId() == idToDelete) {
+			cuenta.deleteAccount();
+			break;
+		}
 	}
 }
