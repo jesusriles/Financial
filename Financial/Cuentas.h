@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <vector>
 #include <fstream> 
+#include <limits>
 
 using std::string;
 using namespace std;
@@ -49,8 +50,13 @@ private:
 	string mFechaCreacion{ "null" };
 	string mComentarios{ "null" };
 
+	static void replaceWordInFileWithId(const string& wordToReplace, const string& newWord, 
+		fstream& file, const string fileName, const int &id);
+	static string getIdFromLine(const string& line);
+
 public:
 	// constructor
+	Cuentas() = delete;
 	Cuentas(int id, string nombre, float valorInicial, TIPODECUENTA tipoDeCuenta, TIPODEMONEDA tipoDeMoneda, string comentarios);
 	Cuentas(int id, string nombre, float valorInicial, TIPODECUENTA tipoDeCuenta);
 
@@ -78,7 +84,7 @@ public:
 	static void imprimirCuentas(const vector<Cuentas> &c);
 	static bool guardarCuenta(Cuentas &c);
 	static vector<Cuentas> leerCuentas();
-	static int getNextFreeId(const vector<Cuentas> &c); // get the next free Id to be assigned
+	static int getNextFreeId(); // get the next free Id to be assigned
 
 	string tipoDeCuentaToString() const;
 	static TIPODECUENTA stringToTipoDeCuenta(const string &s);
@@ -88,4 +94,7 @@ public:
 
 	string statusToString() const;
 	static STATUS stringToStatus(const string& s);
+
+	void deleteAccount();
+	void restoreAccount();
 };

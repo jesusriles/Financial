@@ -58,12 +58,14 @@ void Cuentas::imprimirCuentas(const vector<Cuentas> &c)
 
 		std::cout.imbue(std::locale(""));
 		std::cout << std::fixed << std::showpoint << std::setprecision(2);
-		cout << cuenta.mNombre << setw(tabSize) << "$" << cuenta.mValorInicial << endl;
+		cout << cuenta.mId << "\t" << cuenta.mNombre << setw(tabSize) << "$" << cuenta.mValorInicial << endl;
 	}
+	cout << endl;
+	system("PAUSE"); // wait user input to continue
 }
 
-int Cuentas::getNextFreeId(const vector<Cuentas> &c) {
-
+int Cuentas::getNextFreeId() {
+	vector<Cuentas> c = Cuentas::leerCuentas();
 	if (c.empty())
 		return 1;
 
@@ -224,4 +226,69 @@ STATUS Cuentas::stringToStatus(const string& s) {
 	else if (s == "Archived") return STATUS::ARCHIVED;
 
 	return STATUS::OTHER;
+}
+
+void Cuentas::deleteAccount() {
+
+	if (this->obtenerStatus() == STATUS::DELETED) { return; }
+
+	string oldStatusToString{ this->statusToString() };
+	mStatus = STATUS::DELETED;
+	string newStatusToString{ this->statusToString() };
+
+	fstream file(ARCHIVO_CUENTAS, std::ifstream::in);
+
+	replaceWordInFileWithId(oldStatusToString, newStatusToString, file, ARCHIVO_CUENTAS, mId);
+	file.close();
+}
+
+void Cuentas::restoreAccount() {
+
+	if (this->obtenerStatus() == STATUS::ACTIVE) { return; }
+
+	string oldStatusToString{ this->statusToString() };
+	mStatus = STATUS::ACTIVE;
+	string newStatusToString{ this->statusToString() };
+
+	fstream file(ARCHIVO_CUENTAS, std::ifstream::in);
+
+	replaceWordInFileWithId(oldStatusToString, newStatusToString, file, ARCHIVO_CUENTAS, mId);
+	file.close();
+}
+
+void Cuentas::replaceWordInFileWithId(const string& wordToReplace, const string& newWord, 
+	fstream& file, string fileName, const int& id) {
+	
+	ofstream newFile;
+	string newFileName{ fileName + ".tmp" };
+
+	newFile.open(newFileName, fstream::app);
+
+	string lineTmp{};
+	for (int i{ 0 }; getline(file, lineTmp); ++i) {
+		string tmpId{ getIdFromLine(lineTmp) };
+
+		if (to_string(id) == tmpId) {
+			size_t pos = lineTmp.find(wordToReplace);
+			if (pos != std::string::npos) {
+				lineTmp.replace(pos, wordToReplace.length(), newWord);
+			}			
+		}
+		newFile << lineTmp << "\n";
+	}
+	newFile.close();
+	file.close();
+	
+	remove("OLD_FILE_NAME.tmp.txt");
+	rename(fileName.c_str(), "OLD_FILE_NAME.tmp.txt");
+	rename(newFileName.c_str(), fileName.c_str() );
+}
+
+string Cuentas::getIdFromLine(const string& line) {
+	string id{};
+	for (char c : line) {
+		if (c == ',') break;
+		id += c;
+	}
+	return id;
 }
