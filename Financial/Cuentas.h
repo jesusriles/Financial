@@ -97,4 +97,5 @@ public:
 
 	void deleteAccount();
 	void restoreAccount();
+	void renameAccount(const string newAccountName);
 };

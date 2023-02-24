@@ -292,3 +292,11 @@ string Cuentas::getIdFromLine(const string& line) {
 	}
 	return id;
 }
+
+void Cuentas::renameAccount(const string newAccountName) {
+	fstream file(ARCHIVO_CUENTAS, std::ifstream::in);
+	string currentAccountName{ obtenerNombre() };		
+
+	replaceWordInFileWithId(currentAccountName, newAccountName, file, ARCHIVO_CUENTAS, mId);
+	file.close();
+}

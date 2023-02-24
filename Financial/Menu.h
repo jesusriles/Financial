@@ -15,4 +15,5 @@ public:
 	static void createAccount();
 	static void deleteAccount(vector<Cuentas> &c);
 	static void restoreAccount(vector<Cuentas>& c);
+	static void renameAccount(vector<Cuentas>& c);
 };

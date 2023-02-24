@@ -3,8 +3,6 @@
 #include "Ingresos.h"
 #include "Menu.h"
 
-using std::cin;
-
 int main() {
 
 	// Obtener la informacion guardada en los archivos (Cuentas, Ingresos y Gastos)
