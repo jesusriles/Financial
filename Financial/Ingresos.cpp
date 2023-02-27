@@ -1,8 +1,10 @@
 #include "Ingresos.h"
 
-Ingresos::Ingresos(int id, int mIdCuentaAsociada, float cantidad) :
-	mId{ id }, mIdCuentaAsociada{ mIdCuentaAsociada }, mCantidad{ cantidad }
+Ingresos::Ingresos(int tmpId, int tmpAccountId, float tmpAmount)
 {
+	mId = tmpId;
+	mAccountId = tmpAccountId;
+	mAmount = tmpAmount;
 }
 
 void Ingresos::imprimirIngresos() {
@@ -11,7 +13,7 @@ void Ingresos::imprimirIngresos() {
 	std::cout << std::fixed << std::showpoint << std::setprecision(3);
 
 	cout << "Id: " << mId <<
-		" Id cuenta: " << mIdCuentaAsociada << " Cantidad: $" << mCantidad << endl;
+		" Id cuenta: " << mAccountId << " Cantidad: $" << mAmount << endl;
 }
 
 double Ingresos::obtenerIngresoTotalDeCuenta(vector<Ingresos> &i, int cuentaId) {
@@ -19,8 +21,8 @@ double Ingresos::obtenerIngresoTotalDeCuenta(vector<Ingresos> &i, int cuentaId) 
 	float total{ 0 };
 
 	for (Ingresos ingreso : i) {
-		if(ingreso.getIdCuentaAsociada() == cuentaId)
-		total += ingreso.mCantidad;
+		if(ingreso.getAccountId() == cuentaId)
+		total += ingreso.mAmount;
 	}
 	return total;
 }
@@ -32,8 +34,8 @@ bool Ingresos::guardarIngreso(Ingresos& i) {
 
 	file <<
 		i.getId() << "," <<
-		i.getIdCuentaAsociada() << "," <<
-		i.getCantidad() << ";" <<
+		i.getAccountId() << "," <<
+		i.getAmount() << ";" <<
 		endl;
 
 	file.close();
@@ -73,7 +75,6 @@ vector<Ingresos> Ingresos::leerIngresos() {
 					// se crea la cuenta y se agrega al vector cuentas
 					ingresos.push_back(Ingresos(tmpId, tmpIdCuentaAsociada, tmpCantidad));
 				}
-
 				contadorDeComas++;
 				s = "";
 			}
