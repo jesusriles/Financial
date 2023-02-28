@@ -17,7 +17,7 @@ public:
 	Ingresos(int tmpId, string shortDescription, int tmpAccountId, float tmpAmount);
 
 	// funciones
-	void imprimirIngresos();
+	static void imprimirIngresos(const vector<Ingresos>& i);
 	static double obtenerIngresoTotalDeCuenta(vector<Ingresos>& i, int cuentaId);
 
 	static vector<Ingresos> leerIngresos(); // obtener todos los ingresos

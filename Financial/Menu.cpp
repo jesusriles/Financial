@@ -25,8 +25,8 @@ void Menu::optionsMenu(const int &option) {
 	// Accounts
 	if (option == 1) {	
 		int optionCuenta = printMenuAccounts();
-
 		vector<Cuentas> cuentas = Cuentas::leerCuentas();
+
 		if (optionCuenta == 1) Cuentas::imprimirCuentas(cuentas);
 		else if (optionCuenta == 2)	Menu::createAccount();
 		else if (optionCuenta == 3) Menu::deleteAccount(cuentas);
@@ -37,11 +37,9 @@ void Menu::optionsMenu(const int &option) {
 	// Incomes
 	if (option == 2) {
 		int optionIncome = printMenuIncome();
-		if (optionIncome == 1) {
-			vector<Ingresos> ing = Ingresos::leerIngresos();
-			
-		}
-			
+		vector<Ingresos> ing = Ingresos::leerIngresos();
+
+		if (optionIncome == 1) Ingresos::imprimirIngresos(ing);		
 		if (optionIncome == 2) Menu::createIncome();
 	}
 }

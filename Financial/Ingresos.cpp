@@ -8,13 +8,19 @@ Ingresos::Ingresos(int tmpId, string tmpShortDescription, int tmpAccountId, floa
 	mAmount = tmpAmount;
 }
 
-void Ingresos::imprimirIngresos() {
+void Ingresos::imprimirIngresos(const vector<Ingresos> &i) {
 	// Modificar un numero para que muestre comas (e.j. 1,000,999.321)
 	std::cout.imbue(std::locale(""));
-	std::cout << std::fixed << std::showpoint << std::setprecision(3);
+	std::cout << std::fixed << std::showpoint << std::setprecision(2);
 
-	cout << "Id: " << mId <<
-		" Id cuenta: " << mAccountId << " Cantidad: $" << mAmount << endl;
+	for (Ingresos ingreso : i) {
+		cout << 
+			"Id: " << ingreso.mId <<
+			" Id cuenta: " << ingreso.mAccountId << 
+			" Descripcion: " << ingreso.mShortDescription <<
+			" Cantidad: $" << ingreso.mAmount << endl;
+	}
+	system("PAUSE"); // wait user input to continue
 }
 
 double Ingresos::obtenerIngresoTotalDeCuenta(vector<Ingresos> &i, int cuentaId) {
