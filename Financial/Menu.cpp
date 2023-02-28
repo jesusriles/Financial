@@ -182,19 +182,24 @@ int Menu::printMenuIncome() {
 
 void Menu::createIncome() {
 	
-	int tmpId{};
-	int tmpAccountId{};
-	double tmpAmount{};
+	int id{};
+	string shortDescription;
+	int accountId{};
+	double amount{};
 
 	cout << "\nEnter the income id > ";
-	cin >> tmpId;
+	cin >> id;
+
+	cout << "\nEnter a short description > ";
+	std::cin.ignore();
+	getline(std::cin, shortDescription);
 
 	cout << "\nEnter the tmpAccountId > ";
-	cin >> tmpAccountId;
+	cin >> accountId;
 
 	cout << "\nEnter the tmpAmount > ";
-	cin >> tmpAmount;
+	cin >> amount;
 	
-	Ingresos ing = Ingresos(tmpId, tmpAccountId, tmpAmount);
+	Ingresos ing = Ingresos(id, shortDescription, accountId, amount);
 	Ingresos::guardarIngreso(ing);
 }

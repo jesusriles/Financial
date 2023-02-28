@@ -1,8 +1,9 @@
 #include "Ingresos.h"
 
-Ingresos::Ingresos(int tmpId, int tmpAccountId, float tmpAmount)
+Ingresos::Ingresos(int tmpId, string tmpShortDescription, int tmpAccountId, float tmpAmount)
 {
 	mId = tmpId;
+	mShortDescription = tmpShortDescription;
 	mAccountId = tmpAccountId;
 	mAmount = tmpAmount;
 }
@@ -34,6 +35,7 @@ bool Ingresos::guardarIngreso(Ingresos& i) {
 
 	file <<
 		i.getId() << "," <<
+		i.getShortDescription() << "," <<
 		i.getAccountId() << "," <<
 		i.getAmount() << ";" <<
 		endl;
@@ -55,9 +57,10 @@ vector<Ingresos> Ingresos::leerIngresos() {
 		string s{};
 
 		// valores que se necesitan para hacer la clase de tipo Ingresos
-		int tmpId{ 0 };					// 0
-		int tmpIdCuentaAsociada{ 0 };		// 1
-		float tmpCantidad{ 0 };			// 2
+		int tmpId{ 0 };
+		string tmpShortDescription{};
+		int tmpIdCuentaAsociada{ 0 };
+		float tmpCantidad{ 0 };
 
 		for (int x{ 0 }; x < lineTmp.size(); ++x) { // iterar sobre cada letra en cada linea
 
@@ -68,12 +71,13 @@ vector<Ingresos> Ingresos::leerIngresos() {
 			else {
 				// asignar los valores
 				if (contadorDeComas == 0) tmpId = stoi(s);
-				else if (contadorDeComas == 1)  tmpIdCuentaAsociada = stoi(s);
-				else if (contadorDeComas == 2) {
+				else if (contadorDeComas == 1) tmpShortDescription = s;
+				else if (contadorDeComas == 2)  tmpIdCuentaAsociada = stoi(s);
+				else if (contadorDeComas == 3) {
 					tmpCantidad = stof(s);
 
 					// se crea la cuenta y se agrega al vector cuentas
-					ingresos.push_back(Ingresos(tmpId, tmpIdCuentaAsociada, tmpCantidad));
+					ingresos.push_back(Ingresos(tmpId, tmpShortDescription, tmpIdCuentaAsociada, tmpCantidad));
 				}
 				contadorDeComas++;
 				s = "";

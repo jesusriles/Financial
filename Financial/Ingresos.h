@@ -14,7 +14,7 @@ class Ingresos : public Movements
 {
 public:
 	// constructor
-	Ingresos(int tmpId, int tmpAccountId, float tmpAmount);
+	Ingresos(int tmpId, string shortDescription, int tmpAccountId, float tmpAmount);
 
 	// funciones
 	void imprimirIngresos();
