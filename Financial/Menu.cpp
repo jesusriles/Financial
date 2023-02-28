@@ -8,6 +8,7 @@ int Menu::printMenu() {
 		system("CLS");
 		cout << "--- General activities ---\n";
 		cout << "(1) Accounts" << endl;
+		cout << "#(2) Income" << endl;
 		cout << "(99) Exit" << endl;
 
 		cout << "Option > ";
@@ -24,15 +25,28 @@ void Menu::optionsMenu(const int &option) {
 	// Accounts
 	if (option == 1) {	
 		int optionCuenta = printMenuAccounts();
-
 		vector<Cuentas> cuentas = Cuentas::leerCuentas();
+
 		if (optionCuenta == 1) Cuentas::imprimirCuentas(cuentas);
 		else if (optionCuenta == 2)	Menu::createAccount();
 		else if (optionCuenta == 3) Menu::deleteAccount(cuentas);
 		else if (optionCuenta == 4) Menu::restoreAccount(cuentas);
 		else if (optionCuenta == 5) Menu::renameAccount(cuentas);
 	}
+
+	// Incomes
+	if (option == 2) {
+		int optionIncome = printMenuIncome();
+		vector<Ingresos> ing = Ingresos::leerIngresos();
+
+		if (optionIncome == 1) Ingresos::imprimirIngresos(ing);		
+		if (optionIncome == 2) Menu::createIncome();
+	}
 }
+
+/*
+		ACCOUNTS	
+*/
 
 int Menu::printMenuAccounts() {
 	
@@ -143,4 +157,47 @@ void Menu::renameAccount(vector<Cuentas>& c) {
 			break;
 		}
 	}
+}
+
+
+/*
+		INCOME
+*/
+
+int Menu::printMenuIncome() {
+	int option{ 0 };
+	system("CLS");
+	cout << "--- Income activities ---\n";
+	cout << "(1) Visualize incomes" << endl;
+	cout << "(2) Add income" << endl;
+
+	cout << "(99) Salir" << endl;
+	cout << "Option > ";
+	cin >> option;
+
+	return option;
+}
+
+void Menu::createIncome() {
+	
+	int id{};
+	string shortDescription;
+	int accountId{};
+	double amount{};
+
+	cout << "\nEnter the income id > ";
+	cin >> id;
+
+	cout << "\nEnter a short description > ";
+	std::cin.ignore();
+	getline(std::cin, shortDescription);
+
+	cout << "\nEnter the tmpAccountId > ";
+	cin >> accountId;
+
+	cout << "\nEnter the tmpAmount > ";
+	cin >> amount;
+	
+	Ingresos ing = Ingresos(id, shortDescription, accountId, amount);
+	Ingresos::guardarIngreso(ing);
 }
