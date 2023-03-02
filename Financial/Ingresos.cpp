@@ -14,11 +14,10 @@ void Ingresos::imprimirIngresos(const vector<Ingresos> &i) {
 	std::cout << std::fixed << std::showpoint << std::setprecision(2);
 
 	for (Ingresos ingreso : i) {
-		cout << 
-			"Id: " << ingreso.mId <<
-			" Id cuenta: " << ingreso.mAccountId << 
-			" Descripcion: " << ingreso.mShortDescription <<
-			" Cantidad: $" << ingreso.mAmount << endl;
+		int tabSize = 40 - ingreso.mShortDescription.size();
+
+		cout << ingreso.mId << "\t" << ingreso.mAccountId << "\t" <<
+			ingreso.mShortDescription << setw(tabSize) << ingreso.mAmount << endl;
 	}
 	system("PAUSE"); // wait user input to continue
 }

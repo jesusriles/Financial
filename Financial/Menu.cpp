@@ -8,7 +8,7 @@ int Menu::printMenu() {
 		system("CLS");
 		cout << "--- General activities ---\n";
 		cout << "(1) Accounts" << endl;
-		cout << "#(2) Income" << endl;
+		cout << "(2) Income" << endl;
 		cout << "(99) Exit" << endl;
 
 		cout << "Option > ";
