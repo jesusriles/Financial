@@ -23,7 +23,7 @@ void Transactions::printTransactions(const vector<Transactions> &i) {
 	system("PAUSE"); // wait user input to continue
 }
 
-double Transactions::obtenerIngresoTotalDeCuenta(vector<Transactions> &i, int cuentaId) {
+double Transactions::getTotalIncomesOfAccount(vector<Transactions> &i, int cuentaId) {
 
 	float total{ 0 };
 
@@ -34,7 +34,7 @@ double Transactions::obtenerIngresoTotalDeCuenta(vector<Transactions> &i, int cu
 	return total;
 }
 
-bool Transactions::guardarIngreso(Transactions& i) {
+bool Transactions::saveIncomes(Transactions& i) {
 
 	ofstream file;
 	file.open(FILE_TRANSACTIONS, fstream::app);
@@ -50,7 +50,7 @@ bool Transactions::guardarIngreso(Transactions& i) {
 	return true;
 }
 
-vector<Transactions> Transactions::leerIngresos() {
+vector<Transactions> Transactions::readIncomes() {
 
 	string lineTmp{};
 	ifstream file(FILE_TRANSACTIONS, std::ifstream::in);

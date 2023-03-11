@@ -37,7 +37,7 @@ void Menu::optionsMenu(const int &option) {
 	// Incomes
 	if (option == 2) {
 		int optionIncome = printMenuIncome();
-		vector<Transactions> ing = Transactions::leerIngresos();
+		vector<Transactions> ing = Transactions::readIncomes();
 
 		if (optionIncome == 1) Transactions::printTransactions(ing);		
 		if (optionIncome == 2) Menu::createIncome();
@@ -199,5 +199,5 @@ void Menu::createIncome() {
 	cin >> amount;
 	
 	Transactions ing = Transactions(id, shortDescription, accountId, amount);
-	Transactions::guardarIngreso(ing);
+	Transactions::saveIncomes(ing);
 }
