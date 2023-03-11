@@ -17,9 +17,11 @@ class Ingresos
 	float mAmount{ 0 };
 	vector<string> tags{};
 	string mComments{};
-	//	string mDate{};
 
 public:
+	// constructor
+	Ingresos(int tmpId, string shortDescription, int tmpAccountId, float tmpAmount);
+
 	// getters
 	int getId() const { return mId; };
 	string getShortDescription() const { return mShortDescription; };
@@ -27,9 +29,6 @@ public:
 	double getAmount() const { return mAmount; };
 	vector<string> getTags() const { return tags; };
 	string getComments() const { return mComments; };
-
-	// constructor
-	Ingresos(int tmpId, string shortDescription, int tmpAccountId, float tmpAmount);
 
 	// funciones
 	static void imprimirIngresos(const vector<Ingresos>& i);
