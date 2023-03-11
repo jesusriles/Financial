@@ -1,10 +1,10 @@
-#include "Cuentas.h"
+#include "Accounts.h"
 
 // Constructors
-Cuentas::Cuentas(int id, string nombre, float valorInicial,
-	TIPODECUENTA tipoDeCuenta, TIPODEMONEDA tipoDeMoneda, string comentarios) :
-	mId{ id }, mNombre {nombre}, mValorInicial{ valorInicial },
-	mTipoDeCuenta {tipoDeCuenta}, mTipoDeMoneda {tipoDeMoneda}, mComentarios {comentarios}
+Accounts::Accounts(int id, string nombre, float valorInicial,
+	ACCOUNT_TYPE tipoDeCuenta, CURRENCY tipoDeMoneda, string comentarios) :
+	mId{ id }, mName {nombre}, mInitialValue{ valorInicial },
+	mAccountType {tipoDeCuenta}, mCurrency {tipoDeMoneda}, mComments {comentarios}
 {	
 	if (id < 1 || id > 99) {
 		string error_message{ "[ERROR] Error: El id no debe ser mayor a " + MAX_AVAILABLE_IDS };
@@ -24,25 +24,25 @@ Cuentas::Cuentas(int id, string nombre, float valorInicial,
 		throw(error_message);
 	}
 
-	if (mComentarios.length() > 50) {
+	if (mComments.length() > 50) {
 		string error_message{ "[ERROR] El comentario debe tener maximo 200 caracteres" };
 		cout << error_message << endl;
 		throw(error_message);
 	}
 ;}
 
-Cuentas::Cuentas(int id, string nombre, float valorInicial, TIPODECUENTA tipoDeCuenta) : 
-	mId{ id }, mNombre{ nombre }, mValorInicial{ valorInicial }, mTipoDeCuenta{ tipoDeCuenta } {
-	Cuentas::Cuentas(
+Accounts::Accounts(int id, string nombre, float valorInicial, ACCOUNT_TYPE tipoDeCuenta) :
+	mId{ id }, mName{ nombre }, mInitialValue{ valorInicial }, mAccountType{ tipoDeCuenta } {
+	Accounts::Accounts(
 		mId,
-		mNombre,
-		mValorInicial,
-		mTipoDeCuenta,
-		TIPODEMONEDA::MXN, // MXN will be the default
+		mName,
+		mInitialValue,
+		mAccountType,
+		CURRENCY::MXN, // MXN will be the default
 		"null"); // comentarios
 }
 
-void Cuentas::imprimirCuentas(const vector<Cuentas> &c)
+void Accounts::printAccounts(const vector<Accounts> &c)
 { 
 	system("CLS");
 	if (c.empty()) {
@@ -50,33 +50,33 @@ void Cuentas::imprimirCuentas(const vector<Cuentas> &c)
 		return;
 	}
 
-	for (Cuentas cuenta : c) {
-		if (cuenta.obtenerStatus() == STATUS::HIDDEN || 
-			cuenta.obtenerStatus() == STATUS::DELETED ||
-			cuenta.obtenerStatus() == STATUS::ARCHIVED) continue;
-		int tabSize = 25 - cuenta.mNombre.size();
+	for (Accounts cuenta : c) {
+		if (cuenta.getStatus() == STATUS::HIDDEN || 
+			cuenta.getStatus() == STATUS::DELETED ||
+			cuenta.getStatus() == STATUS::ARCHIVED) continue;
+		int tabSize = 25 - cuenta.mName.size();
 
 		std::cout.imbue(std::locale(""));
 		std::cout << std::fixed << std::showpoint << std::setprecision(2);
-		cout << cuenta.mId << "\t" << cuenta.mNombre << setw(tabSize) << "$" << cuenta.mValorInicial << endl;
+		cout << cuenta.mId << "\t" << cuenta.mName << setw(tabSize) << "$" << cuenta.mInitialValue << endl;
 	}
 	cout << endl;
 	system("PAUSE"); // wait user input to continue
 }
 
-int Cuentas::getNextFreeId() {
-	vector<Cuentas> c = Cuentas::leerCuentas();
+int Accounts::getNextFreeId() {
+	vector<Accounts> c = Accounts::readAccounts();
 	if (c.empty())
 		return 1;
 
-	int nextId = (c[c.size() - 1].obtenerId()) + 1;
+	int nextId = (c[c.size() - 1].getId()) + 1;
 
 	// make sure the id doesn't exist in the already created accounts
 	bool duplicatedId{ true };
 
 	while (duplicatedId) {
-		for (Cuentas cuenta : c) {
-			if (cuenta.obtenerId() == nextId) { // id already exist, assign another
+		for (Accounts cuenta : c) {
+			if (cuenta.getId() == nextId) { // id already exist, assign another
 				++nextId;
 				break;
 			}
@@ -86,32 +86,32 @@ int Cuentas::getNextFreeId() {
 	return nextId;
 }
 
-bool Cuentas::guardarCuenta(Cuentas& c) {
+bool Accounts::saveAccount(Accounts& c) {
 
 	ofstream file;
-	file.open(ARCHIVO_CUENTAS, fstream::app);
+	file.open(FILE_ACCOUNTS, fstream::app);
 
 	file <<
-		c.obtenerId() << "," <<
-		c.obtenerNombre() << "," <<
-		c.obtenerComentario() << "," <<
-		c.obtenerFechaCreacion() << "," <<
-		c.obtenerValorInicial() << std::showpoint << std::setprecision(2) << "," <<
-		c.tipoDeCuentaToString() << "," <<	// TIPODECUENTA changed to text
-		c.tipoDeMonedaToString() << "," <<	// TIPODEMONEDA changed to text
+		c.getId() << "," <<
+		c.getName() << "," <<
+		c.getComments() << "," <<
+		c.getDateCreated() << "," <<
+		c.getInitialValue() << std::showpoint << std::setprecision(2) << "," <<
+		c.accountTypeToString() << "," <<	// TIPODECUENTA changed to text
+		c.currencyToString() << "," <<	// TIPODEMONEDA changed to text
 		c.statusToString() << ";" <<		// STATUS changed to text
 		endl;
 	file.close();
 	return true;
 }
 
-vector<Cuentas> Cuentas::leerCuentas() {
+vector<Accounts> Accounts::readAccounts() {
 
 	string lineTmp{};
-	ifstream file(ARCHIVO_CUENTAS, std::ifstream::in);
+	ifstream file(FILE_ACCOUNTS, std::ifstream::in);
 
 	vector<string> vLine{}; // TODO: creo que no se usa, revisar
-	vector<Cuentas> cuentas{};
+	vector<Accounts> cuentas{};
 
 	for (int i{ 0 }; getline(file, lineTmp); ++i) { // iterar sobre cada linea
 
@@ -124,8 +124,8 @@ vector<Cuentas> Cuentas::leerCuentas() {
 		string tmpComentarios{ "null" };		// 2
 		string tmpFechaCreacion{ "null" };		// 3
 		float tmpValorInicial{ 0.0f };			// 4
-		TIPODECUENTA tmpTipoDeCuenta{ TIPODECUENTA::OTHER };				// 5
-		TIPODEMONEDA tmpTipoDeMoneda{ TIPODEMONEDA::OTHER };				// 6
+		ACCOUNT_TYPE tmpTipoDeCuenta{ ACCOUNT_TYPE::OTHER };				// 5
+		CURRENCY tmpTipoDeMoneda{ CURRENCY::OTHER };				// 6
 		STATUS tmpStatus{ STATUS::OTHER };				// 7
 
 		std::cout.precision(2);
@@ -143,13 +143,13 @@ vector<Cuentas> Cuentas::leerCuentas() {
 				else if (contadorDeComas == 2) tmpComentarios = s;
 				else if (contadorDeComas == 3) tmpFechaCreacion = s;
 				else if (contadorDeComas == 4) tmpValorInicial = stof(s);
-				else if (contadorDeComas == 5) tmpTipoDeCuenta = stringToTipoDeCuenta(s);
-				else if (contadorDeComas == 6) tmpTipoDeMoneda = stringToTipoDeMoneda(s);
+				else if (contadorDeComas == 5) tmpTipoDeCuenta = stringToAccountType(s);
+				else if (contadorDeComas == 6) tmpTipoDeMoneda = stringToCurrency(s);
 				else if (contadorDeComas == 7) {
 					tmpStatus = stringToStatus(s);
 
 					// se crea la cuenta y se agrega al vector cuentas
-					Cuentas tmpAccount{ tmpId, tmpNombre, tmpValorInicial, tmpTipoDeCuenta, tmpTipoDeMoneda, tmpComentarios };
+					Accounts tmpAccount{ tmpId, tmpNombre, tmpValorInicial, tmpTipoDeCuenta, tmpTipoDeMoneda, tmpComentarios };
 					tmpAccount.setStatus(tmpStatus); // set the status
 					cuentas.push_back(tmpAccount);
 				}
@@ -163,48 +163,48 @@ vector<Cuentas> Cuentas::leerCuentas() {
 }
 
 /* TIPODECUENTA is stored in the file as text (this function is to convert "TIPODECUENTA" to text */
-string Cuentas::tipoDeCuentaToString() const {
-	switch (mTipoDeCuenta) {
-	case TIPODECUENTA::DEBITO: 
+string Accounts::accountTypeToString() const {
+	switch (mAccountType) {
+	case ACCOUNT_TYPE::DEBITO: 
 		return "Debito";
-	case TIPODECUENTA::CREDITO:
+	case ACCOUNT_TYPE::CREDITO:
 		return "Credito";
 	}
 	return "Other";
 }
 
 /* TIPODECUENTA is stored in the file as text (this function is to convert text to "TIPODECUENTA" */
-TIPODECUENTA Cuentas::stringToTipoDeCuenta(const string &s) {
-	if (s == "Debito") return TIPODECUENTA::DEBITO;
-	else if (s == "Credito") return TIPODECUENTA::CREDITO;
+ACCOUNT_TYPE Accounts::stringToAccountType(const string &s) {
+	if (s == "Debito") return ACCOUNT_TYPE::DEBITO;
+	else if (s == "Credito") return ACCOUNT_TYPE::CREDITO;
 
-	return TIPODECUENTA::OTHER;
+	return ACCOUNT_TYPE::OTHER;
 }
 
 /* TIPODEMONEDA is stored in the file as text (this function is to convert "TIPODEMONEDA" to text */
-string Cuentas::tipoDeMonedaToString() const {
-	switch (mTipoDeMoneda) {
-	case TIPODEMONEDA::MXN:
+string Accounts::currencyToString() const {
+	switch (mCurrency) {
+	case CURRENCY::MXN:
 		return "MXN";
-	case TIPODEMONEDA::USD:
+	case CURRENCY::USD:
 		return "USD";
-	case TIPODEMONEDA::EUR:
+	case CURRENCY::EUR:
 		return "EUR";
 	}
 	return "Other";
 }
 
 /* TIPODEMONEDA is stored in the file as text (this function is to convert text to "TIPODEMONEDA" */
-TIPODEMONEDA Cuentas::stringToTipoDeMoneda(const string &s) {
-	if (s == "MXN") return TIPODEMONEDA::MXN;
-	else if (s == "USD") return TIPODEMONEDA::USD;
-	else if (s == "EUR") return TIPODEMONEDA::EUR;
+CURRENCY Accounts::stringToCurrency(const string &s) {
+	if (s == "MXN") return CURRENCY::MXN;
+	else if (s == "USD") return CURRENCY::USD;
+	else if (s == "EUR") return CURRENCY::EUR;
 
-	return TIPODEMONEDA::OTHER;
+	return CURRENCY::OTHER;
 }
 
 /* STATUS is stored in the file as text (this function is to convert "STATUS" to text */
-string Cuentas::statusToString() const {
+string Accounts::statusToString() const {
 	switch (mStatus) {
 	case STATUS::ACTIVE:
 		return "Active";
@@ -219,7 +219,7 @@ string Cuentas::statusToString() const {
 }
 
 /* STATUS is stored in the file as text (this function is to convert text to "STATUS" */
-STATUS Cuentas::stringToStatus(const string& s) {
+STATUS Accounts::stringToStatus(const string& s) {
 	if (s == "Active") return STATUS::ACTIVE;
 	else if (s == "Hidden") return STATUS::HIDDEN;
 	else if (s == "Deleted") return STATUS::DELETED;
@@ -228,35 +228,35 @@ STATUS Cuentas::stringToStatus(const string& s) {
 	return STATUS::OTHER;
 }
 
-void Cuentas::deleteAccount() {
+void Accounts::deleteAccount() {
 
-	if (this->obtenerStatus() == STATUS::DELETED) { return; }
+	if (this->getStatus() == STATUS::DELETED) { return; }
 
 	string oldStatusToString{ this->statusToString() };
 	mStatus = STATUS::DELETED;
 	string newStatusToString{ this->statusToString() };
 
-	fstream file(ARCHIVO_CUENTAS, std::ifstream::in);
+	fstream file(FILE_ACCOUNTS, std::ifstream::in);
 
-	replaceWordInFileWithId(oldStatusToString, newStatusToString, file, ARCHIVO_CUENTAS, mId);
+	replaceWordInFileWithId(oldStatusToString, newStatusToString, file, FILE_ACCOUNTS, mId);
 	file.close();
 }
 
-void Cuentas::restoreAccount() {
+void Accounts::restoreAccount() {
 
-	if (this->obtenerStatus() == STATUS::ACTIVE) { return; }
+	if (this->getStatus() == STATUS::ACTIVE) { return; }
 
 	string oldStatusToString{ this->statusToString() };
 	mStatus = STATUS::ACTIVE;
 	string newStatusToString{ this->statusToString() };
 
-	fstream file(ARCHIVO_CUENTAS, std::ifstream::in);
+	fstream file(FILE_ACCOUNTS, std::ifstream::in);
 
-	replaceWordInFileWithId(oldStatusToString, newStatusToString, file, ARCHIVO_CUENTAS, mId);
+	replaceWordInFileWithId(oldStatusToString, newStatusToString, file, FILE_ACCOUNTS, mId);
 	file.close();
 }
 
-void Cuentas::replaceWordInFileWithId(const string& wordToReplace, const string& newWord, 
+void Accounts::replaceWordInFileWithId(const string& wordToReplace, const string& newWord,
 	fstream& file, string fileName, const int& id) {
 	
 	ofstream newFile;
@@ -284,7 +284,7 @@ void Cuentas::replaceWordInFileWithId(const string& wordToReplace, const string&
 	rename(newFileName.c_str(), fileName.c_str() );
 }
 
-string Cuentas::getIdFromLine(const string& line) {
+string Accounts::getIdFromLine(const string& line) {
 	string id{};
 	for (char c : line) {
 		if (c == ',') break;
@@ -293,10 +293,10 @@ string Cuentas::getIdFromLine(const string& line) {
 	return id;
 }
 
-void Cuentas::renameAccount(const string newAccountName) {
-	fstream file(ARCHIVO_CUENTAS, std::ifstream::in);
-	string currentAccountName{ obtenerNombre() };		
+void Accounts::renameAccount(const string newAccountName) {
+	fstream file(FILE_ACCOUNTS, std::ifstream::in);
+	string currentAccountName{ getName() };		
 
-	replaceWordInFileWithId(currentAccountName, newAccountName, file, ARCHIVO_CUENTAS, mId);
+	replaceWordInFileWithId(currentAccountName, newAccountName, file, FILE_ACCOUNTS, mId);
 	file.close();
 }

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Cuentas.h"
-#include "Ingresos.h"
+#include "Accounts.h"
+#include "Transactions.h"
 #include "Menu.h"
 
 int main() {

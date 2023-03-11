@@ -127,19 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Cuentas.cpp" />
-    <ClCompile Include="Gastos.cpp" />
-    <ClCompile Include="Ingresos.cpp" />
+    <ClCompile Include="Accounts.cpp" />
+    <ClCompile Include="Transactions.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Movements.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Cuentas.h" />
-    <ClInclude Include="Gastos.h" />
-    <ClInclude Include="Ingresos.h" />
+    <ClInclude Include="Accounts.h" />
+    <ClInclude Include="Transactions.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Movements.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

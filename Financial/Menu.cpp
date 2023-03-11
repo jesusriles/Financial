@@ -8,7 +8,7 @@ int Menu::printMenu() {
 		system("CLS");
 		cout << "--- General activities ---\n";
 		cout << "(1) Accounts" << endl;
-		cout << "#(2) Income" << endl;
+		cout << "(2) Income" << endl;
 		cout << "(99) Exit" << endl;
 
 		cout << "Option > ";
@@ -25,9 +25,9 @@ void Menu::optionsMenu(const int &option) {
 	// Accounts
 	if (option == 1) {	
 		int optionCuenta = printMenuAccounts();
-		vector<Cuentas> cuentas = Cuentas::leerCuentas();
+		vector<Accounts> cuentas = Accounts::readAccounts();
 
-		if (optionCuenta == 1) Cuentas::imprimirCuentas(cuentas);
+		if (optionCuenta == 1) Accounts::printAccounts(cuentas);
 		else if (optionCuenta == 2)	Menu::createAccount();
 		else if (optionCuenta == 3) Menu::deleteAccount(cuentas);
 		else if (optionCuenta == 4) Menu::restoreAccount(cuentas);
@@ -37,9 +37,9 @@ void Menu::optionsMenu(const int &option) {
 	// Incomes
 	if (option == 2) {
 		int optionIncome = printMenuIncome();
-		vector<Ingresos> ing = Ingresos::leerIngresos();
+		vector<Transactions> ing = Transactions::leerIngresos();
 
-		if (optionIncome == 1) Ingresos::imprimirIngresos(ing);		
+		if (optionIncome == 1) Transactions::printTransactions(ing);		
 		if (optionIncome == 2) Menu::createIncome();
 	}
 }
@@ -71,7 +71,7 @@ void Menu::createAccount() {
 	float valor{ 0.00f };
 
 	int tmpTipoDeCuentaInt{ 0 };
-	TIPODECUENTA tipoDeCuenta{ TIPODECUENTA::OTHER };
+	ACCOUNT_TYPE tipoDeCuenta{ ACCOUNT_TYPE::OTHER };
 
 	cout << "Nombre de cuenta> ";
 	std::cin.ignore();
@@ -82,65 +82,65 @@ void Menu::createAccount() {
 
 	cout << "Tipo de cuenta:\n(1) Debito\n(2) Credito\n> ";
 	std::cin >> tmpTipoDeCuentaInt;
-	tipoDeCuenta = static_cast<TIPODECUENTA>(tmpTipoDeCuentaInt);
+	tipoDeCuenta = static_cast<ACCOUNT_TYPE>(tmpTipoDeCuentaInt);
 
 	try {
-		int id = Cuentas::getNextFreeId();
-		Cuentas cuenta = Cuentas(id, nombre, valor, tipoDeCuenta);
-		Cuentas::guardarCuenta(cuenta);
+		int id = Accounts::getNextFreeId();
+		Accounts cuenta = Accounts(id, nombre, valor, tipoDeCuenta);
+		Accounts::saveAccount(cuenta);
 	}
 	catch (...) {
 		cout << "[ERROR] La cuenta no se pudo crear correctamente." << endl;
 	}
 }
 
-void Menu::deleteAccount(vector<Cuentas> &c) {
+void Menu::deleteAccount(vector<Accounts> &c) {
 	system("CLS");
 	int idToDelete{ 0 };
 
 	cout << "Select the account you want to delete: " << endl;
-	for (Cuentas &cuenta : c) {
-		if (cuenta.obtenerStatus() == STATUS::DELETED) continue;
-		cout << cuenta.obtenerId() << "\t" << cuenta.obtenerNombre() << endl; //TODO: No hay una funcion que ya imprime esto? deberia ser una funcion en cuentas en vez de ponerlo aqui
+	for (Accounts&cuenta : c) {
+		if (cuenta.getStatus() == STATUS::DELETED) continue;
+		cout << cuenta.getId() << "\t" << cuenta.getName() << endl; //TODO: No hay una funcion que ya imprime esto? deberia ser una funcion en cuentas en vez de ponerlo aqui
 	}
 	cout << endl << "> ";
 	cin >> idToDelete;
 
-	for (Cuentas cuenta : c) {
-		if (cuenta.obtenerId() == idToDelete) {
+	for (Accounts cuenta : c) {
+		if (cuenta.getId() == idToDelete) {
 			cuenta.deleteAccount();
 			break;
 		}
 	}
 }
 
-void Menu::restoreAccount(vector<Cuentas> &c) {
+void Menu::restoreAccount(vector<Accounts> &c) {
 	system("CLS");
 	int idToRestore{ 0 };
 
 	cout << "Select the account you want to restore: " << endl;
-	for (Cuentas &cuenta : c) {
-		if (cuenta.obtenerStatus() == STATUS::ACTIVE) continue;
-		cout << cuenta.obtenerId() << "\t" << cuenta.obtenerNombre() << endl; //TODO: No hay una funcion que ya imprime esto? deberia ser una funcion en cuentas en vez de ponerlo aqui
+	for (Accounts&cuenta : c) {
+		if (cuenta.getStatus() == STATUS::ACTIVE) continue;
+		cout << cuenta.getId() << "\t" << cuenta.getName() << endl; //TODO: No hay una funcion que ya imprime esto? deberia ser una funcion en cuentas en vez de ponerlo aqui
 	}
 	cout << endl << "> ";
 	cin >> idToRestore;
 
-	for (Cuentas &cuenta : c) {
-		if (cuenta.obtenerId() == idToRestore) {
+	for (Accounts&cuenta : c) {
+		if (cuenta.getId() == idToRestore) {
 			cuenta.restoreAccount();
 			break;
 		}
 	}
 }
 
-void Menu::renameAccount(vector<Cuentas>& c) {
+void Menu::renameAccount(vector<Accounts>& c) {
 	system("CLS");
 	int idToRename{ 0 };
 
 	cout << "Select the account you want to rename: " << endl;
-	for (Cuentas& cuenta : c)
-		cout << cuenta.obtenerId() << "\t" << cuenta.obtenerNombre() << endl; //TODO: No hay una funcion que ya imprime esto? deberia ser una funcion en cuentas en vez de ponerlo aqui
+	for (Accounts& cuenta : c)
+		cout << cuenta.getId() << "\t" << cuenta.getName() << endl; //TODO: No hay una funcion que ya imprime esto? deberia ser una funcion en cuentas en vez de ponerlo aqui
 	cout << endl << "> ";
 	cin >> idToRename;
 
@@ -151,8 +151,8 @@ void Menu::renameAccount(vector<Cuentas>& c) {
 	std::cin.ignore();
 	getline(std::cin, newAccountName);
 
-	for (Cuentas& cuenta : c) {
-		if (cuenta.obtenerId() == idToRename) {
+	for (Accounts& cuenta : c) {
+		if (cuenta.getId() == idToRename) {
 			cuenta.renameAccount(newAccountName);
 			break;
 		}
@@ -198,6 +198,6 @@ void Menu::createIncome() {
 	cout << "\nEnter the tmpAmount > ";
 	cin >> amount;
 	
-	Ingresos ing = Ingresos(id, shortDescription, accountId, amount);
-	Ingresos::guardarIngreso(ing);
+	Transactions ing = Transactions(id, shortDescription, accountId, amount);
+	Transactions::guardarIngreso(ing);
 }
