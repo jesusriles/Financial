@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
-#include "Cuentas.h"
-#include "Ingresos.h"
+#include "Accounts.h"
+#include "Transactions.h"
 
 using namespace std;
 
@@ -16,9 +16,9 @@ public:
 	// Accounts
 	static int printMenuAccounts();
 	static void createAccount();
-	static void deleteAccount(vector<Cuentas> &c);
-	static void restoreAccount(vector<Cuentas>& c);
-	static void renameAccount(vector<Cuentas>& c);
+	static void deleteAccount(vector<Accounts> &c);
+	static void restoreAccount(vector<Accounts>& c);
+	static void renameAccount(vector<Accounts>& c);
 
 	// Income
 	static int printMenuIncome();

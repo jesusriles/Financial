@@ -5,11 +5,11 @@
 #include <locale>
 #include <vector>
 
-#include "Cuentas.h" // here are the global files name defined in Cuentas.h
+#include "Accounts.h"
 
 using namespace std;
 
-class Ingresos
+class Transactions
 {
 	int mId{ 0 };
 	string mShortDescription{};
@@ -20,7 +20,7 @@ class Ingresos
 
 public:
 	// constructor
-	Ingresos(int tmpId, string shortDescription, int tmpAccountId, float tmpAmount);
+	Transactions(int tmpId, string shortDescription, int tmpAccountId, float tmpAmount);
 
 	// getters
 	int getId() const { return mId; };
@@ -31,9 +31,9 @@ public:
 	string getComments() const { return mComments; };
 
 	// funciones
-	static void imprimirIngresos(const vector<Ingresos>& i);
-	static double obtenerIngresoTotalDeCuenta(vector<Ingresos>& i, int cuentaId);
+	static void printTransactions(const vector<Transactions>& i);
+	static double getTotalIncomesOfAccount(vector<Transactions>& i, int cuentaId);
 
-	static vector<Ingresos> leerIngresos(); // obtener todos los ingresos
-	static bool guardarIngreso(Ingresos& i);
+	static vector<Transactions> readIncomes();
+	static bool saveIncomes(Transactions& i);
 };

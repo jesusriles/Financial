@@ -1,6 +1,6 @@
-#include "Ingresos.h"
+#include "Transactions.h"
 
-Ingresos::Ingresos(int tmpId, string tmpShortDescription, int tmpAccountId, float tmpAmount)
+Transactions::Transactions(int tmpId, string tmpShortDescription, int tmpAccountId, float tmpAmount)
 {
 	mId = tmpId;
 	mShortDescription = tmpShortDescription;
@@ -8,12 +8,13 @@ Ingresos::Ingresos(int tmpId, string tmpShortDescription, int tmpAccountId, floa
 	mAmount = tmpAmount;
 }
 
-void Ingresos::imprimirIngresos(const vector<Ingresos> &i) {
+void Transactions::printTransactions(const vector<Transactions> &i) {
+	system("CLS");
 	// Modificar un numero para que muestre comas (e.j. 1,000,999.321)
 	std::cout.imbue(std::locale(""));
 	std::cout << std::fixed << std::showpoint << std::setprecision(2);
 
-	for (Ingresos ingreso : i) {
+	for (Transactions ingreso : i) {
 		int tabSize = 40 - ingreso.mShortDescription.size();
 
 		cout << ingreso.mId << "\t" << ingreso.mAccountId << "\t" <<
@@ -22,21 +23,21 @@ void Ingresos::imprimirIngresos(const vector<Ingresos> &i) {
 	system("PAUSE"); // wait user input to continue
 }
 
-double Ingresos::obtenerIngresoTotalDeCuenta(vector<Ingresos> &i, int cuentaId) {
+double Transactions::obtenerIngresoTotalDeCuenta(vector<Transactions> &i, int cuentaId) {
 
 	float total{ 0 };
 
-	for (Ingresos ingreso : i) {
+	for (Transactions ingreso : i) {
 		if(ingreso.getAccountId() == cuentaId)
 		total += ingreso.mAmount;
 	}
 	return total;
 }
 
-bool Ingresos::guardarIngreso(Ingresos& i) {
+bool Transactions::guardarIngreso(Transactions& i) {
 
 	ofstream file;
-	file.open(ARCHIVO_INGRESOS, fstream::app);
+	file.open(FILE_TRANSACTIONS, fstream::app);
 
 	file <<
 		i.getId() << "," <<
@@ -49,12 +50,12 @@ bool Ingresos::guardarIngreso(Ingresos& i) {
 	return true;
 }
 
-vector<Ingresos> Ingresos::leerIngresos() {
+vector<Transactions> Transactions::leerIngresos() {
 
 	string lineTmp{};
-	ifstream file(ARCHIVO_INGRESOS, std::ifstream::in);
+	ifstream file(FILE_TRANSACTIONS, std::ifstream::in);
 
-	vector<Ingresos> ingresos{};
+	vector<Transactions> ingresos{};
 
 	for (int i{ 0 }; getline(file, lineTmp); ++i) { // iterar sobre cada linea
 
@@ -82,7 +83,7 @@ vector<Ingresos> Ingresos::leerIngresos() {
 					tmpCantidad = stof(s);
 
 					// se crea la cuenta y se agrega al vector cuentas
-					ingresos.push_back(Ingresos(tmpId, tmpShortDescription, tmpIdCuentaAsociada, tmpCantidad));
+					ingresos.push_back(Transactions(tmpId, tmpShortDescription, tmpIdCuentaAsociada, tmpCantidad));
 				}
 				contadorDeComas++;
 				s = "";
