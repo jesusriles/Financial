@@ -50,6 +50,10 @@ void Accounts::printAccounts(const vector<Accounts> &c)
 		return;
 	}
 
+	// header
+	cout << "Id\t" << "Name" << setw(26) << "Amount" << endl;
+	cout << "--------------------------------------------------" << endl;
+
 	for (Accounts cuenta : c) {
 		if (cuenta.getStatus() == STATUS::HIDDEN || 
 			cuenta.getStatus() == STATUS::DELETED ||
