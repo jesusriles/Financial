@@ -49,4 +49,6 @@ public:
 
 	string transactionTypeToString() const;
 	static TRANSACTION_TYPE stringToTransactionType(const string& s);
+
+	static int getNextFreeId();
 };

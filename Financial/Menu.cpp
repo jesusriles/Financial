@@ -180,13 +180,10 @@ int Menu::printMenuIncome() {
 
 void Menu::createIncome() {
 	
-	int id{};
+	int id = Transactions::getNextFreeId();
 	string shortDescription;
 	int accountId{};
 	double amount{};
-
-	cout << "\nEnter the income id > ";
-	cin >> id;
 
 	cout << "\nEnter a short description > ";
 	std::cin.ignore();

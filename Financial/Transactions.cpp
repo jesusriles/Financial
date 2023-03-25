@@ -119,3 +119,25 @@ TRANSACTION_TYPE Transactions::stringToTransactionType(const string& s) {
 
 	return TRANSACTION_TYPE::OTHER;
 }
+
+int Transactions::getNextFreeId() {
+	vector<Transactions> t = Transactions::readIncomes();
+	if (t.empty())
+		return 1;
+
+	int nextId = (t[t.size() - 1].getId()) + 1;
+
+	// make sure the id doesn't exist in the already created accounts
+	bool duplicatedId{ true };
+
+	while (duplicatedId) {
+		for (Transactions transaction : t) {
+			if (transaction.getId() == nextId) { // id already exist, assign another
+				++nextId;
+				break;
+			}
+		}
+		duplicatedId = false;
+	}
+	return nextId;
+}
