@@ -189,10 +189,9 @@ void Menu::createIncome() {
 	std::cin.ignore();
 	getline(std::cin, shortDescription);
 
-	cout << "\nEnter the tmpAccountId > ";
-	cin >> accountId;
+	accountId = Accounts::printByAccountType(Accounts::readAccounts());
 
-	cout << "\nEnter the tmpAmount > ";
+	cout << "\nEnter the amount > ";
 	cin >> amount;
 	
 	Transactions ing = Transactions(id, shortDescription, accountId, amount, TRANSACTION_TYPE::INCOME);

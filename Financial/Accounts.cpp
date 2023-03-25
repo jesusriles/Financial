@@ -300,3 +300,47 @@ void Accounts::renameAccount(const string newAccountName) {
 	replaceWordInFileWithId(currentAccountName, newAccountName, file, FILE_ACCOUNTS, mId);
 	file.close();
 }
+
+int Accounts::printByAccountType(const vector<Accounts>& c) {
+	system("CLS");
+	vector<Accounts> debit{};
+	vector<Accounts> credit{};
+	vector<Accounts> other{};
+
+	// separate accounts by account type
+	for (Accounts a : c) {
+		if (a.getStatus() != STATUS::ACTIVE) continue;
+
+		if (a.getAccountType() == ACCOUNT_TYPE::DEBITO) {
+			debit.push_back(a);
+			continue;
+		}
+				
+		else if (a.getAccountType() == ACCOUNT_TYPE::CREDITO) {
+			credit.push_back(a);
+			continue;
+		}
+		other.push_back(a);
+	}
+
+	// print accounts by account type
+	cout << "** Debit **" << endl;
+	for (Accounts deb : debit) {
+		cout << "(" + to_string(deb.getId()) + ") " << deb.getName() << endl;
+	}
+
+	cout << "\n** Credit **" << endl;
+	for (Accounts cred : credit) {
+		cout << "(" + to_string(cred.getId()) + ") " << cred.getName() << endl;
+	}
+
+	cout << "\n** Others **" << endl;
+	for (Accounts oth : other) {
+		cout << "(" + to_string(oth.getId()) + ") " << oth.getName() << endl << endl;
+	}
+
+	int accountId{  };
+	cout << "Select account > ";
+	cin >> accountId;
+	return accountId;
+}

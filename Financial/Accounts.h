@@ -97,4 +97,6 @@ public:
 	void deleteAccount();
 	void restoreAccount();
 	void renameAccount(const string newAccountName);
+
+	static int printByAccountType(const vector<Accounts>& c);
 };
