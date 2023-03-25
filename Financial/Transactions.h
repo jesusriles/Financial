@@ -9,6 +9,13 @@
 
 using namespace std;
 
+enum class TRANSACTION_TYPE {
+	INCOME = 1,
+	EXPENSE = 2,
+	TRANSFER = 3,
+	OTHER = 99
+};
+
 class Transactions
 {
 	int mId{ 0 };
@@ -17,10 +24,12 @@ class Transactions
 	float mAmount{ 0 };
 	vector<string> tags{};
 	string mComments{};
+	TRANSACTION_TYPE mTransactionType{ TRANSACTION_TYPE::OTHER };
 
 public:
 	// constructor
-	Transactions(int tmpId, string shortDescription, int tmpAccountId, float tmpAmount);
+	Transactions(int tmpId, string shortDescription, int tmpAccountId, float tmpAmount, 
+					TRANSACTION_TYPE tmpTransactionType);
 
 	// getters
 	int getId() const { return mId; };
@@ -29,6 +38,7 @@ public:
 	double getAmount() const { return mAmount; };
 	vector<string> getTags() const { return tags; };
 	string getComments() const { return mComments; };
+	TRANSACTION_TYPE getTransactionType() const { return mTransactionType; };
 
 	// funciones
 	static void printTransactions(const vector<Transactions>& i);
@@ -36,4 +46,7 @@ public:
 
 	static vector<Transactions> readIncomes();
 	static bool saveIncomes(Transactions& i);
+
+	string transactionTypeToString() const;
+	static TRANSACTION_TYPE stringToTransactionType(const string& s);
 };

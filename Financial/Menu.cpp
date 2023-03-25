@@ -198,6 +198,6 @@ void Menu::createIncome() {
 	cout << "\nEnter the tmpAmount > ";
 	cin >> amount;
 	
-	Transactions ing = Transactions(id, shortDescription, accountId, amount);
+	Transactions ing = Transactions(id, shortDescription, accountId, amount, TRANSACTION_TYPE::INCOME);
 	Transactions::saveIncomes(ing);
 }
